@@ -18,7 +18,17 @@ namespace CyberCoyotesBank
             Console.WriteLine("Password:");
             string passwordInput = Console.ReadLine();
 
-            LoginManager.LoginMenu(usernameInput, passwordInput);
+            if (LoginManager.Login(usernameInput,passwordInput))
+            {
+                Menu.PrintMainMenu();
+            }
+            else
+            {
+                Console.WriteLine("Wong username or password");
+                //TODO Loop and lock after 3 login attempts
+            }
+
+
         }
 
         static public void PrintMainMenu()
@@ -49,6 +59,7 @@ namespace CyberCoyotesBank
                         Console.WriteLine("Press any key to continue!");
                         Console.ReadKey();
                         break;
+
                     case 0:
                         Console.WriteLine("Logout not implemented. you are stuck here");
                         Console.WriteLine("Press any key to continue!");
