@@ -17,12 +17,12 @@ namespace CyberCoyotesBank
         static public bool Login(string username, string password)
         {
             //TODO Move list of users to better place
-            List<User> users = new List<User>() { new User("admin", "admin"), new User("test", "123") };
+            List<User> users = new List<User>() { new User("admin", "admin", 101), new User("test", "123",102) };
 
-            User user = users.Find(x => x._username == username);
+            User user = users.Find(x => x.UserName == username);
 
             if (user == null) { return false; }
-            if (user._username == username && user._password == password)
+            if (user.UserName == username && user.Password == password)
             {
                 activeUser = user;
                 return true;
@@ -39,7 +39,7 @@ namespace CyberCoyotesBank
         //example: enter password before transfering money
         static public bool Password(string password)
         {
-            if (password == activeUser._password)
+            if (password == activeUser.Password)
             {
                 return true;
             }
