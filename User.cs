@@ -6,36 +6,28 @@ using System.Threading.Tasks;
 
 namespace CyberCoyotesBank
 {
-    internal class User : Admin
+
+    internal class User
     {
-        string logActivity;
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public int ID { get; set; }
 
-        public User(string username, string password, int id) : base (username, password, id)
+        public User(string userName, string password, int id)
         {
-            Username = username;
+            UserName = userName;
             Password = password;
-            Id = id;
+            ID = id; 
         }
 
-        public string CreateAccount()
+        public void CreateAccount()
         {
-           
-            //här ska man kunna välja vilket typ av konto man ska öppna
-            //sparkonto eller annat konto
-            //man ska välja valuta
-            //på sparkonto ska man se hur mycket ränta jag får när jag sätter in pengar
-            //kontoöppnandet ska bli ett avtryck i historiken i loggen
-            //kontot ska få ett unikt Id
-            return logActivity;
-
+            Console.WriteLine("Ett konto är skapat för användare: " + UserName);
         }
 
-        public string Loan()
+        public void Loan()
         {
-            //här ska man kunna låna pengar och se hur mycket ränta det blir på lånet
-            //lånet ska bli ett avtryck i historiken i loggen
-            return logActivity;
+            Console.WriteLine("Lånet är beviljat för användare: " + UserName);
         }
-
     }
 }
