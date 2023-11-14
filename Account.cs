@@ -118,20 +118,9 @@ namespace CyberCoyotesBank
 
             }
         }
-        public void CreateAccount(string name, float balance, string ) 
+        public void CreateAccount(string name, float balance, string currency) 
         {
-            
-            //Id = id;
-            //Name = name;
-            //Balance = balance;
-            //Currency = "SEK";
-
-            accountLists.Add(new Account(Id++, name,"SEK", balance));
-
-            //AccountList newUser = new AccountList();
-            //newUser.Name = name;
-            //newUser.ID = id;
-            //newUser.Balance = balance;
+            accountLists.Add(new Account(Id++, name, currency, balance));
 
         }
         public void Loan() 
