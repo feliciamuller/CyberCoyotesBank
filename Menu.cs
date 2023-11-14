@@ -45,7 +45,8 @@ namespace CyberCoyotesBank
                     "2. create new bankaccont\n" +
                     "0. Logout");
 
-                int input = Int32.Parse(Console.ReadLine());
+               bool success = int.TryParse(Console.ReadLine(), out int input);
+                if (!success) { continue; }
                 Console.Clear();
                 switch (input)
                 {
@@ -65,6 +66,7 @@ namespace CyberCoyotesBank
                         Console.WriteLine("Press any key to continue!");
                         Console.ReadKey();
                         break;
+                   
                 }
             }
 
