@@ -1,4 +1,6 @@
-﻿namespace CyberCoyotesBank
+﻿using System.Diagnostics.SymbolStore;
+
+namespace CyberCoyotesBank
 {
     internal class Program
     {
