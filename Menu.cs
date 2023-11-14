@@ -22,6 +22,7 @@ namespace CyberCoyotesBank
  __| |____________________| |__ 
 (__|_|____________________|_|__)");
 
+
                 Console.WriteLine("Username:");
                 string usernameInput = Console.ReadLine();
 
