@@ -61,18 +61,17 @@ namespace CyberCoyotesBank
         {
             foreach (var i in accountLists)
             {
-                Console.WriteLine($"ID : {i.Id} Account Name: \nBalance: {i.Balance} {i.Currency}");
+                Console.WriteLine($"ID : {i.Id} {i.Name} \nBalance: {i.Balance} {i.Currency}");
             }
-
         }
 
         public void TransferMoney() 
         {
             foreach (var i in accountLists)
             {
-
                 Console.WriteLine($"Account ID: {i.Id} {i.Name} Balance: {i.Balance} {i.Currency}");
             }
+
             int.TryParse(Console.ReadLine(), out int idDebit);
             int.TryParse(Console.ReadLine(), out int idKredit);
             float.TryParse(Console.ReadLine(), out float result);
@@ -120,8 +119,8 @@ namespace CyberCoyotesBank
         }
         public void CreateAccount(string name, float balance, string currency) 
         {
-            accountLists.Add(new Account(Id++, name, currency, balance));
 
+            accountLists.Add(new Account(Id++, name, currency, balance));
         }
         public void Loan() 
         { 
