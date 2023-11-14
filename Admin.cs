@@ -8,30 +8,25 @@ using System.Xml.Serialization;
 
 namespace CyberCoyotesBank
 {
-    internal class Admin
+    internal class Admin : User 
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public int Id { get; set; }
-
-        public Admin(string username, string password, int id)
+        public Admin(string username, string password, int id) 
+            : base (username, password, id)
         {
-            Username = username;
-            Password = password;
-            Id = id;
+
         }
 
         public int CreateUser()
         {
             Console.WriteLine("Skriv in användarnamn: ");
-            Username = Console.ReadLine();
+            UserName = Console.ReadLine();
             Console.WriteLine("Skriv in lösenord: ");
             Password = Console.ReadLine();
             Random random = new Random();
             //här behöver vi kontrollera så Id inte är samma som någon annan
-            Id = random.Next(1,50);
+            ID = random.Next(1,50);
 
-            return Id; //vet ej om detta är nödvändigt
+            return ID; //vet ej om detta är nödvändigt
         }
 
         public void UpdateExchangeRate()
