@@ -12,25 +12,37 @@ namespace CyberCoyotesBank
 
         static public void PrintLogin()
         {
-            Console.WriteLine("Username:");
-           string usernameInput = Console.ReadLine();
-
-            Console.WriteLine("Password:");
-            string passwordInput = Console.ReadLine();
-
-            if (LoginManager.Login(usernameInput,passwordInput))
+            int loginAttempts = 0;
+            while (loginAttempts < 3)
             {
-                Menu.PrintMainMenu();
-            }
-            else
-            {
-                Console.WriteLine("Wong username or password");
-                //TODO Loop and lock after 3 login attempts
-            }
+
+                Console.WriteLine("Username:");
+                string usernameInput = Console.ReadLine();
+
+                Console.WriteLine("Password:");
+                string passwordInput = Console.ReadLine();
+                loginAttempts++;
+                if (LoginManager.Login(usernameInput, passwordInput))
+                {
+                    Menu.PrintMainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Wong username or password");
+                }
+
+                if (loginAttempts == 3)
+                {
+                    Console.WriteLine("Too many attempts");
+                    Console.WriteLine("press any key to exit app");
+                    Console.ReadKey();
+
+                    Environment.Exit(0);
 
 
+                }
+            }
         }
-
         static public void PrintMainMenu()
         {
 
@@ -45,7 +57,7 @@ namespace CyberCoyotesBank
                     "2. create new bankaccont\n" +
                     "0. Logout");
 
-               bool success = int.TryParse(Console.ReadLine(), out int input);
+                bool success = int.TryParse(Console.ReadLine(), out int input);
                 if (!success) { continue; }
                 Console.Clear();
                 switch (input)
@@ -66,11 +78,11 @@ namespace CyberCoyotesBank
                         Console.WriteLine("Press any key to continue!");
                         Console.ReadKey();
                         break;
-                   
+
                 }
             }
 
-            
+
 
 
 
