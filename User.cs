@@ -13,9 +13,9 @@ namespace CyberCoyotesBank
         public string Password { get; set; }
         public int ID { get; set; }
 
-        public User(string userName, string password, int id)
+        public User(string username, string password, int id)
         {
-            UserName = userName;
+            UserName = username;
             Password = password;
             ID = id; 
         }
