@@ -119,7 +119,6 @@ namespace CyberCoyotesBank
         }
         public void CreateAccount(string name, float balance, string currency) 
         {
-
             accountLists.Add(new Account(Id++, name, currency, balance));
         }
         public void Loan() 
