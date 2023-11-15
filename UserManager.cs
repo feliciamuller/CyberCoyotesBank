@@ -104,7 +104,7 @@ namespace CyberCoyotesBank
         }
 
         //gets a list of both Users and Admins
-        public static List<User> GetAllUsers()
+        public static List<User> GetUsersAndAdmins()
         {
             return Users;
         }

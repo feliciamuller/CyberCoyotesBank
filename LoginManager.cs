@@ -19,7 +19,7 @@ namespace CyberCoyotesBank
             ////TODO Move list of users to better place
             //List<User> users = new List<User>() { new User("admin", "admin", 101), new User("test", "123",102) };
 
-            User user = UserManager.GetAllUsers().Find(x => x.UserName == username);
+            User user = UserManager.GetUsersAndAdmins().Find(x => x.UserName == username);
 
             if (user == null) { return false; }
             if (user.UserName == username && user.Password == password)
