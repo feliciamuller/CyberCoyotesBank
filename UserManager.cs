@@ -29,9 +29,9 @@ namespace CyberCoyotesBank
                 uName = username;
             }
 
-            if (password == null)
+            if (password == "")
             {
-                Console.WriteLine("Password cannot be null");
+                Console.WriteLine("Password cannot be empty");
                 Console.WriteLine("press any key to continue");
                 Console.ReadKey();
                 return;
@@ -43,6 +43,38 @@ namespace CyberCoyotesBank
             Users.Add(new User(username, password, lastId));
 
 
+        }
+
+        static public void CreateAdmin(string username, string password)
+        {
+            string uName;
+            string pWord;
+            bool exists = Users.Any(x => x.UserName == username);
+            if (exists)
+            {
+                Console.WriteLine("Username already exists");
+                Console.WriteLine("press any key to continue");
+                Console.ReadKey();
+                return;
+            }
+            else
+            {
+                uName = username;
+            }
+
+            if (password == "")
+            {
+                Console.WriteLine("Password cannot be empty");
+                Console.WriteLine("press any key to continue");
+                Console.ReadKey();
+                return;
+            }
+            pWord = password;
+
+
+            lastId++;
+            //TODO change to admin inheritance works
+            Users.Add(new User(username, password, lastId));
         }
 
     }
