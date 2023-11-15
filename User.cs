@@ -19,12 +19,9 @@ namespace CyberCoyotesBank
             Password = password;
             ID = id; 
         }
-
-        public void CreateAccount()
-        {
-            Console.WriteLine("Ett konto är skapat för användare: " + UserName);
-        }
-
+       
+        // Här ska man kunna låna pengar och se hur mycket ränta det blir på lånet
+        // Lånet ska bli ett avtryck i historiken i loggen
         public void Loan()
         {
             Console.WriteLine("Lånet är beviljat för användare: " + UserName);
