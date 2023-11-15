@@ -73,8 +73,7 @@ namespace CyberCoyotesBank
 
 
             lastId++;
-            //TODO change to admin inheritance works
-            Users.Add(new User(username, password, lastId));
+            Users.Add(new Admin(username, password, lastId));
         }
 
     }
