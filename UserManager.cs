@@ -11,7 +11,7 @@ namespace CyberCoyotesBank
     static internal class UserManager
     {
         //list to hold all Users and Admins
-        static private List<User> Users = new List<User>() { new Admin("admin", "admin", 101), new Admin("admin1", "admin", 102), new Admin("admin2", "admin", 103) , new User("user", "admin", 104), new User("user1", "admin", 105) };
+        static private List<User> Users = new List<User>() { new Admin("admin", "admin", 101) };
 
         //holds last Id used to create a user
         static private int lastId = 101;
