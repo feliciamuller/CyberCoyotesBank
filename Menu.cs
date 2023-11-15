@@ -16,6 +16,13 @@ namespace CyberCoyotesBank
             while (loginAttempts < 3)
             {
 
+                Console.WriteLine(@" __| |____________________| |__ 
+(__| |____________________| |__)
+   | |  CyberCoyotesBank  | |   
+ __| |____________________| |__ 
+(__|_|____________________|_|__)");
+
+
                 Console.WriteLine("Username:");
                 string usernameInput = Console.ReadLine();
 
