@@ -135,9 +135,8 @@ namespace CyberCoyotesBank
                     string currency = Console.ReadLine();
                     Console.WriteLine("Set balance: ");
                     float balance = float.Parse(Console.ReadLine());//felhantering
-                    User user = LoginManager.GetActiveUser();
 
-                    AccountManager.CreateAccount(name, currency, balance, user);
+                    AccountManager.CreateAccount(name, currency, balance);
                     break;
                 case 2:
                     Console.WriteLine("Savings account not impemented yet");
