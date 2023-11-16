@@ -29,5 +29,11 @@ namespace CyberCoyotesBank
             return accounts.Find(x => x.Id == id);
         }
 
+        static public List<Account> GetAllAccoutsUser(User user)
+        {
+            return accounts.FindAll(x => x.Owner == user);
+        }
+
+
     }
 }
