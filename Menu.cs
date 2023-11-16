@@ -192,7 +192,7 @@ namespace CyberCoyotesBank
                 Console.WriteLine();
                 Console.WriteLine("1. Create new users\n" +
                     "2. Update exchange rate\n" +
-                    "3. View list of users" +
+                    "3. View list of users\n" +
                     "0. Logout");
 
                 bool success = int.TryParse(Console.ReadLine(), out int input);
