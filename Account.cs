@@ -6,26 +6,6 @@ using System.Threading.Tasks;
 
 namespace CyberCoyotesBank
 {
-
-    public class AccountList
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public float AccountBalance { get; set; }
-        public string Currency { get; set; }
-
-        public AccountList()
-        {
-            
-        }
-        public AccountList(int id, string name, float accountBalance, string currency)
-        {
-            ID = id;
-            Name = name;
-            AccountBalance = accountBalance;
-            Currency = currency;
-        }
-    }
     internal class Account
     {
         public int Id = 0;
@@ -64,7 +44,6 @@ namespace CyberCoyotesBank
             {
                 Console.WriteLine($"ID : {i.Id} Account Name: \nBalance: {i.Balance} {i.Currency}");
             }
-
         }
         public void TransferMoney() 
         {
