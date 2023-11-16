@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -52,16 +55,17 @@ namespace CyberCoyotesBank
         }
         static public void PrintMainMenu()
         {
-
-
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("-----------BANK-------------------");
                 Console.WriteLine("What do you want to do");
                 Console.WriteLine();
-                Console.WriteLine("1. open bankaccount\n" +
-                    "2. create new bankaccont\n" +
+                Console.WriteLine("1. View bankaccount\n" +
+                    "2. Create new bankaccount\n" +
+                    "3. Transfer money\n" +
+                    "4. Make a loan\n" +
+                    "5. View history log on my accounts\n" +
                     "0. Logout");
 
                 bool success = int.TryParse(Console.ReadLine(), out int input);
@@ -70,32 +74,111 @@ namespace CyberCoyotesBank
                 switch (input)
                 {
                     case 1:
-                        Console.WriteLine("Open bankaccount not implemented");
+                        MenuOption1();
                         Console.WriteLine("Press any key to continue!");
                         Console.ReadKey();
                         break;
                     case 2:
-                        Console.WriteLine("Create bankaccont not implemented");
+                        MenuOption2();
                         Console.WriteLine("Press any key to continue!");
                         Console.ReadKey();
                         break;
-
+                    case 3:
+                        MenuOption3();
+                        Console.WriteLine("Press any key to continue!");
+                        Console.ReadKey();
+                        break;
+                    case 4:
+                        MenuOption4();
+                        Console.WriteLine("Press any key to continue!");
+                        Console.ReadKey();
+                        break;
+                    case 5:
+                        MenuOption5();
+                        Console.WriteLine("Press any key to continue!");
+                        Console.ReadKey();
+                        break;
                     case 0:
-                        Console.WriteLine("Logout not implemented. you are stuck here");
+                        MenuOption0();
                         Console.WriteLine("Press any key to continue!");
                         Console.ReadKey();
                         break;
-
                 }
             }
-
-
-
-
-
-
-
         }
-
+        public static void MenuOption1()
+        {
+            //TODO felhantering
+            Console.WriteLine("1: View checking account\n2: View savings account\n3: All accounts");
+            bool success = int.TryParse(Console.ReadLine(), out int input);
+            switch (input)
+            {
+                case 1:
+                    Console.WriteLine("List of all your checking accounts");
+                    break;
+                case 2:
+                    Console.WriteLine("List of all your savings account");
+                    break;
+                case 3:
+                    Console.WriteLine("List of all your accounts");
+                    break;
+                default:
+                    Console.WriteLine("Not valid choice");
+                    break;
+            }
+        }
+        public static void MenuOption2()
+        {
+            //TODO felhantering
+            Console.WriteLine("1: Create checking account\n2: Create savings account");
+            bool success = int.TryParse(Console.ReadLine(), out int input);
+            switch (input)
+            {
+                case 1:
+                    Console.WriteLine("Create checking account");
+                    break;
+                case 2:
+                    Console.WriteLine("Create savings account");
+                    break;
+                default:
+                    Console.WriteLine("Not valid choice");
+                    break;
+            }
+        }
+        public static void MenuOption3()
+        {
+            //TODO felhantering
+            Console.WriteLine("1: Transfer money between your accounts\n2: Transfer money to another customers account");
+            bool success = int.TryParse(Console.ReadLine(), out int input);
+            switch (input)
+            {
+                case 1:
+                    Console.WriteLine("Type in the bankaccount ID you want to transfer from");
+                    Console.WriteLine("Type in the account ID you want to transfer to");
+                    break;
+                case 2:
+                    Console.WriteLine("Type in the bankaccount ID you want to transfer from");
+                    Console.WriteLine("Type in the customer ID and bank account ID you want to transfer to");
+                    break;
+                default:
+                    Console.WriteLine("Not valid choice");
+                    break;
+            }
+        }
+        public static void MenuOption4()
+        {
+            //Lån max 5ggr tillgångar
+            Console.WriteLine("Apply for a loan and see interest");
+        }
+        public static void MenuOption5()
+        {
+            Console.WriteLine("Show activity");
+        }
+        public static void MenuOption0()
+        {
+            Console.WriteLine("Logging out");
+        }
     }
 }
+
+
