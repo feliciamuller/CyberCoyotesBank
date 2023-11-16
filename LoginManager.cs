@@ -49,5 +49,10 @@ namespace CyberCoyotesBank
             }
         }
 
+        static public User GetActiveUser()
+        {
+            return activeUser;
+        }
+
     }
 }

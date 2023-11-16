@@ -6,35 +6,17 @@ using System.Threading.Tasks;
 
 namespace CyberCoyotesBank
 {
-
-    public class AccountList
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public float AccountBalance { get; set; }
-        public string Currency { get; set; }
-
-        public AccountList()
-        {
-            
-        }
-        public AccountList(int id, string name, float accountBalance, string currency)
-        {
-            ID = id;
-            Name = name;
-            AccountBalance = accountBalance;
-            Currency = currency;
-        }
-    }
     internal class Account
     {
-        int Id = 0;
-        string Name { get; set; }
-        float Balance { get ; set; }
-        string Currency { get; set; }
+        public User Owner { get; set; }
+        public int Id = 0;
+        public string Name { get; set; }
+        public float Balance { get ; set; }
+        public string Currency { get; set; }
 
-        List<Account> accountLists = new List<Account>();
-        List<Account> accountNames = new List<Account>();
+        public List<Account> accountLists = new List<Account>();
+        public List<string> accountHistory = new List<string>();
+
         public List<object> userList { get; set ; }
 
         public Account()
@@ -49,8 +31,9 @@ namespace CyberCoyotesBank
             Balance = balance;
         }
 
-        public Account(int id, string name, string currency, float balance)
+        public Account(int id, string name, string currency, float balance, User user)
         {
+            Owner = user;
             Name = name;
             Id = id;
             Currency = currency;
@@ -65,42 +48,79 @@ namespace CyberCoyotesBank
             }
 
         }
-
         public void TransferMoney() 
         {
+            Console.WriteLine("Your accounts:");
             foreach (var i in accountLists)
             {
-
                 Console.WriteLine($"Account ID: {i.Id} {i.Name} Balance: {i.Balance} {i.Currency}");
             }
-            int.TryParse(Console.ReadLine(), out int idDebit);
-            int.TryParse(Console.ReadLine(), out int idKredit);
+            int idRemoveFundsHolder = 0;
+            int idAddFundsHolder = 0;
+            float balanceHolder = 0;
+            string idNameFrom = "";
+            string idNameTo = "";
+            string idNameFromCurrency = "";
+            string idNameToCurrency = "";
+
+            Console.WriteLine("Please typ in the ID of the account that you want to transfer funds from.");
+            int.TryParse(Console.ReadLine(), out int idRemoveFunds);
+
+            Console.WriteLine("Please typ in the ID of the account that you want to transfer funds to.");
+            int.TryParse(Console.ReadLine(), out int idAddFunds);
+
+            Console.WriteLine("How much do you want to transfer? Use only digits please.");
             float.TryParse(Console.ReadLine(), out float result);
 
-            foreach (var debit in accountLists) 
+            Console.Clear();
+
+            foreach (var holder in accountLists) 
             {
-                if (debit.Id == idDebit) 
+                if (holder.Id == idRemoveFunds) 
                 {
-                    debit.Balance = debit.Balance - result;
+                    idNameFrom = holder.Name;
+                    balanceHolder = holder.Balance;
+                    idRemoveFundsHolder = holder.Id;
+                    idNameFromCurrency = holder.Currency;
+                }
+                else if (holder.Id == idAddFunds)
+                {
+                    idNameTo = holder.Name;
+                    idAddFundsHolder = holder.Id;
+                    idNameToCurrency = holder.Currency;
                 }
             }
 
-            foreach (var kredit in accountLists)
+            if (idRemoveFundsHolder == idRemoveFunds && idAddFundsHolder == idAddFunds && balanceHolder >= result)
             {
-
-                if (kredit.Id == idKredit)
+                foreach (var funds in accountLists)
                 {
-                    
-                    kredit.Balance = kredit.Balance + result;
+                    if (idRemoveFunds == funds.Id)
+                    {
+                        
+                            funds.Balance = funds.Balance - result;
+                        
+                    }
+                    else if (idAddFunds == funds.Id)
+                    {
+                        
+                            funds.Balance = funds.Balance + result;
+                        
+                    }
                 }
+                accountHistory.Add($"Transaction succesful! From Account name: {idNameFrom} Funds: -{result} {idNameFromCurrency}. To Account name: {idNameTo} Funds: +{result} {idNameToCurrency} {DateTime.Now}");
+            }
+            else 
+            {
+                Console.WriteLine("Could not make your request. Please check if you got valid funds and/or that you typed in the right ID.");
 
+                accountHistory.Add($"Transaction unsuccesful! {DateTime.Now}");
             }
         }
         public void TransactionToUser()
         {
             foreach (var i in accountLists)
             {
-
                 Console.WriteLine($"Account Name: {i.Name}");
             }
 
@@ -109,25 +129,22 @@ namespace CyberCoyotesBank
 
             foreach (var i in accountLists)
             {
-                 
                 if (i.Name == userInputName)
                 {
-                    
                     i.Balance = i.Balance + result;
                 }
             }
-        }
-        public void CreateAccount(string name, float balance, string currency) 
-        {
-            accountLists.Add(new Account(Id++, name, currency, balance));
         }
         public void Loan() 
         { 
             
         }
         public void AccountHistory() 
-        { 
-            
+        {
+            foreach (var historyCheck in accountHistory)
+            {
+                Console.WriteLine(historyCheck);
+            }
         }
     }
 }
