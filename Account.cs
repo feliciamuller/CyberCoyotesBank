@@ -8,8 +8,8 @@ namespace CyberCoyotesBank
 {
     internal class Account
     {
-        User Owner { get; set; }
-        public int _id = 0;
+        public User Owner { get; set; }
+        public int Id = 0;
         public string Name { get; set; }
         public float Balance { get ; set; }
         public string Currency { get; set; }

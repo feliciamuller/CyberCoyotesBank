@@ -15,11 +15,11 @@ namespace CyberCoyotesBank
         static private int lastId = 99;
 
         //Runs account constructor and adds a new account to list
-        static public void CreateAccount(string name, string currency, float balance)
+        static public void CreateAccount(string name, string currency, float balance, User user)
         {
 
             lastId++;
-            accounts.Add(new Account(lastId, name, currency, balance));
+            accounts.Add(new Account(lastId, name, currency, balance,user));
         }
 
 
@@ -28,6 +28,12 @@ namespace CyberCoyotesBank
         {
             return accounts.Find(x => x.Id == id);
         }
+
+        static public List<Account> GetAllAccoutsUser(User user)
+        {
+            return accounts.FindAll(x => x.Owner == user);
+        }
+
 
     }
 }
