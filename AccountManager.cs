@@ -10,7 +10,7 @@ namespace CyberCoyotesBank
     static internal class AccountManager
     {
         //List of Accounts
-        static private List<Account> accounts = new List<Account>();
+        static private List<Account> accounts = new List<Account>() { new Account(99, "testAccount", "SEK", 25000, UserManager.GetUser(102)) };
         //Last Id used to create an account
         static private int lastId = 99;
 
