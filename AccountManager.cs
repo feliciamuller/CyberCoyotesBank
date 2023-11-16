@@ -15,11 +15,11 @@ namespace CyberCoyotesBank
         static private int lastId = 99;
 
         //Runs account constructor and adds a new account to list
-        static public void CreateAccount(string name, string currency, float balance)
+        static public void CreateAccount(string name, string currency, float balance, User user)
         {
 
             lastId++;
-            accounts.Add(new Account(lastId, name, currency, balance));
+            accounts.Add(new Account(lastId, name, currency, balance,user));
         }
 
 
