@@ -178,6 +178,71 @@ namespace CyberCoyotesBank
         {
             Console.WriteLine("Logging out");
         }
+
+        public static void PrintMainMenuAdmin()
+        {
+            while(true)
+            {
+                Console.Clear();
+                Console.WriteLine("-----------ADMIN VIEW-------------------");
+                Console.WriteLine("What do you want to do");
+                Console.WriteLine();
+                Console.WriteLine("1. Create new users" +
+                    "2. Update exchange rate" +
+                    "0. Logout");
+
+                bool success = int.TryParse(Console.ReadLine(), out int input);
+                if (!success) { continue; }
+                Console.Clear();
+                switch (input)
+                {
+                    case 1:
+                        AdminMenuOption1();
+                        Console.WriteLine("Press any key to continue!");
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        AdminMenuOption2();
+                        Console.WriteLine("Press any key to continue!");
+                        Console.ReadKey();
+                        break;
+                    case 0:
+                        AdminMenuOption0();
+                        Console.WriteLine("Press any key to continue!");
+                        Console.ReadKey();
+                        break;
+                }
+
+            }
+        }
+
+        public static void AdminMenuOption1()
+        {
+            bool isAdmin;
+
+            Console.WriteLine("Type in username");
+            string username = Console.ReadLine();
+            Console.WriteLine("Type in password");
+            string password = Console.ReadLine();
+            Console.WriteLine("Admin or User?");
+            string role = Console.ReadLine(); //TODO felhantering
+            if (role == "Admin")
+            {
+                isAdmin = true;
+                UserManager.CreateUser(username, password, isAdmin);
+            }
+            else if (role == "User")
+            {
+                isAdmin = false;
+                UserManager.CreateUser(username, password, isAdmin);
+            }
+        }
+
+        public static void AdminMenuOption2()
+        {
+            
+        }
+
     }
 }
 
