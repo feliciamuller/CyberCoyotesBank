@@ -16,8 +16,6 @@ namespace CyberCoyotesBank
         //if found in list check if username and password is correct and return true/false
         static public bool Login(string username, string password)
         {
-            ////TODO Move list of users to better place
-            //List<User> users = new List<User>() { new User("admin", "admin", 101), new User("test", "123",102) };
 
             User user = UserManager.GetUsersAndAdmins().Find(x => x.UserName == username);
 
