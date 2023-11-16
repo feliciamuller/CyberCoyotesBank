@@ -17,7 +17,7 @@ namespace CyberCoyotesBank
         static public bool Login(string username, string password)
         {
 
-            User user = UserManager.GetUsersAndAdmins().Find(x => x.UserName == username);
+            User user = UserManager.GetUser(username);
 
             if (user == null) { return false; }
             if (user.UserName == username && user.Password == password)
