@@ -28,13 +28,13 @@ namespace CyberCoyotesBank
     }
     internal class Account
     {
-        int Id = 0;
-        string Name { get; set; }
-        float Balance { get ; set; }
-        string Currency { get; set; }
+        public int Id = 0;
+        public string Name { get; set; }
+        public float Balance { get ; set; }
+        public string Currency { get; set; }
 
-        List<Account> accountLists = new List<Account>();
-        List<string> accountHistory = new List<string>();
+        public List<Account> accountLists = new List<Account>();
+        public List<string> accountHistory = new List<string>();
 
         public List<object> userList { get; set ; }
 
@@ -155,6 +155,7 @@ namespace CyberCoyotesBank
         }
         public void CreateAccount(string name, float balance, string currency) 
         {
+
             accountLists.Add(new Account(Id++, name, currency, balance));
             accountHistory.Add($"Account created! {DateTime.Now}");
         }
