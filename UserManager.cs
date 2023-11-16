@@ -11,10 +11,10 @@ namespace CyberCoyotesBank
     static internal class UserManager
     {
         //list to hold all Users and Admins
-        static private List<User> Users = new List<User>() { new Admin("admin", "admin", 101) };
+        static private List<User> Users = new List<User>() { new Admin("admin", "admin", 101), new User("user", "user", 102) };
 
         //holds last Id used to create a user
-        static private int lastId = 101;
+        static private int lastId = 102;
 
         //creates a new user or admin and adds to users list. Set bool to true to create admin
         static public void CreateUser(string username, string password, bool isAdmin = false)

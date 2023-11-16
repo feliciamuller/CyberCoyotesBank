@@ -8,7 +8,8 @@ namespace CyberCoyotesBank
 {
     internal class Account
     {
-        public int Id = 0;
+        public User Owner { get; set; }
+        public int _id = 0;
         public string Name { get; set; }
         public float Balance { get ; set; }
         public string Currency { get; set; }
@@ -25,24 +26,25 @@ namespace CyberCoyotesBank
 
         public Account(int id, string currency, float balance)
         {
-            Id = id;
+            _id = id;
             Currency = currency;
             Balance = balance;
         }
 
-        public Account(int id, string name, string currency, float balance)
+        public Account(int id, string name, string currency, float balance, User user)
         {
+            Owner = user;
             Name = name;
-            Id = id;
+            _id = id;
             Currency = currency;
             Balance = balance;
         }
 
         public void CheckBalance() 
         {
-            foreach (var i in accountLists)
+            foreach (var balance in accountLists)
             {
-                Console.WriteLine($"ID : {i.Id} Account Name: \nBalance: {i.Balance} {i.Currency}");
+                Console.WriteLine($"ID : {balance._id} Account Name: \nBalance: {balance.Balance} {balance.Currency}");
             }
         }
         public void TransferMoney() 
@@ -50,7 +52,7 @@ namespace CyberCoyotesBank
             Console.WriteLine("Your accounts:");
             foreach (var i in accountLists)
             {
-                Console.WriteLine($"Account ID: {i.Id} {i.Name} Balance: {i.Balance} {i.Currency}");
+                Console.WriteLine($"Account ID: {i._id} {i.Name} Balance: {i.Balance} {i.Currency}");
             }
             int idRemoveFundsHolder = 0;
             int idAddFundsHolder = 0;
@@ -73,17 +75,17 @@ namespace CyberCoyotesBank
 
             foreach (var holder in accountLists) 
             {
-                if (holder.Id == idRemoveFunds) 
+                if (holder._id == idRemoveFunds) 
                 {
                     idNameFrom = holder.Name;
                     balanceHolder = holder.Balance;
-                    idRemoveFundsHolder = holder.Id;
+                    idRemoveFundsHolder = holder._id;
                     idNameFromCurrency = holder.Currency;
                 }
-                else if (holder.Id == idAddFunds)
+                else if (holder._id == idAddFunds)
                 {
                     idNameTo = holder.Name;
-                    idAddFundsHolder = holder.Id;
+                    idAddFundsHolder = holder._id;
                     idNameToCurrency = holder.Currency;
                 }
             }
@@ -92,13 +94,13 @@ namespace CyberCoyotesBank
             {
                 foreach (var funds in accountLists)
                 {
-                    if (idRemoveFunds == funds.Id)
+                    if (idRemoveFunds == funds._id)
                     {
                         
                             funds.Balance = funds.Balance - result;
                         
                     }
-                    else if (idAddFunds == funds.Id)
+                    else if (idAddFunds == funds._id)
                     {
                         
                             funds.Balance = funds.Balance + result;
@@ -131,12 +133,6 @@ namespace CyberCoyotesBank
                     i.Balance = i.Balance + result;
                 }
             }
-        }
-        public void CreateAccount(string name, float balance, string currency) 
-        {
-
-            accountLists.Add(new Account(Id++, name, currency, balance));
-            accountHistory.Add($"Account created! {DateTime.Now}");
         }
         public void Loan() 
         { 
