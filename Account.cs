@@ -6,28 +6,9 @@ using System.Threading.Tasks;
 
 namespace CyberCoyotesBank
 {
-
-    public class AccountList
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public float AccountBalance { get; set; }
-        public string Currency { get; set; }
-
-        public AccountList()
-        {
-            
-        }
-        public AccountList(int id, string name, float accountBalance, string currency)
-        {
-            ID = id;
-            Name = name;
-            AccountBalance = accountBalance;
-            Currency = currency;
-        }
-    }
     internal class Account
     {
+        User Owner { get; set; }
         public int Id = 0;
         public string Name { get; set; }
         public float Balance { get ; set; }
@@ -50,8 +31,9 @@ namespace CyberCoyotesBank
             Balance = balance;
         }
 
-        public Account(int id, string name, string currency, float balance)
+        public Account(int id, string name, string currency, float balance, User user)
         {
+            Owner = user;
             Name = name;
             Id = id;
             Currency = currency;
@@ -152,12 +134,6 @@ namespace CyberCoyotesBank
                     i.Balance = i.Balance + result;
                 }
             }
-        }
-        public void CreateAccount(string name, float balance, string currency) 
-        {
-
-            accountLists.Add(new Account(Id++, name, currency, balance));
-            accountHistory.Add($"Account created! {DateTime.Now}");
         }
         public void Loan() 
         { 
