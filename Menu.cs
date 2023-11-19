@@ -12,7 +12,7 @@ namespace CyberCoyotesBank
 {
     static class Menu
     {
-
+        //check conditions for username and password and manage login
         static public void PrintLogin()
         {
             int loginAttempts = 0;
@@ -51,15 +51,13 @@ namespace CyberCoyotesBank
                 if (loginAttempts == 3)
                 {
                     Console.WriteLine("Too many attempts");
-                    Console.WriteLine("press any key to exit app");
+                    Console.WriteLine("Press any key to exit app");
                     Console.ReadKey();
-
                     Environment.Exit(0);
-
-
                 }
             }
         }
+        //print user menu and call methods depending on key
         static public void PrintMainMenu()
         {
             while (true)
@@ -73,41 +71,44 @@ namespace CyberCoyotesBank
                     "3. Transfer money\n" +
                     "4. Make a loan\n" +
                     "5. View history log on my accounts\n" +
-                    "0. Logout");
+                    "6. Logout");
 
-                bool success = int.TryParse(Console.ReadLine(), out int input);
-                if (!success) { continue; }
+                int.TryParse(Console.ReadLine(), out int input);
                 Console.Clear();
                 switch (input)
                 {
                     case 1:
                         MenuOption1();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
                     case 2:
                         MenuOption2();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
                     case 3:
                         MenuOption3();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
                     case 4:
                         MenuOption4();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
                     case 5:
                         MenuOption5();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
-                    case 0:
-                        MenuOption0();
-                        Console.WriteLine("Press any key to continue!");
+                    case 6:
+                        MenuOption6();
+                        Console.WriteLine("Press any key to go back to menu");
+                        Console.ReadKey();
+                        break;
+                    default:
+                        Console.WriteLine("Wrong choice, press any key to go back to menu and try again");
                         Console.ReadKey();
                         break;
                 }
@@ -115,73 +116,100 @@ namespace CyberCoyotesBank
         }
         public static void MenuOption1()
         {
+            //print out account list of logged in user
             User user = LoginManager.GetActiveUser();
             foreach (Account account in AccountManager.GetAllAccoutsUser(user))
             {
                 Console.WriteLine($"Account ID: {account.Id} Account name: {account.Name} Currency: {account.Currency} Balance: {account.Balance}");
             }
         }
+        //print menu and call methods for creating bank account
         public static void MenuOption2()
         {
-            //TODO felhantering
-            Console.WriteLine("1: Create checking account\n2: Create savings account");
-            bool success = int.TryParse(Console.ReadLine(), out int input);
-            switch (input)
+            while(true)
             {
-                case 1:
-                    Console.WriteLine("Name of the account: ");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("Currency: ");
-                    string currency = Console.ReadLine();
-                    Console.WriteLine("Set balance: ");
-                    float balance = float.Parse(Console.ReadLine());//felhantering
-
+                Console.WriteLine("1: Create checking account\n2: Create savings account");
+                int.TryParse(Console.ReadLine(), out int input);
+                switch (input)
+                {
+                    case 1:
+                        MenuOptionCreateCheckingAccount();
+                        break;
+                    case 2:
+                        Console.WriteLine("Savings account not impemented yet");
+                        break;
+                    default:
+                        Console.WriteLine("Not valid choice, press 1 or 2");
+                        continue;
+                    }  
+                break;
+            }
+        }
+        //receive input parameter from user and add it to create account method
+        public static void MenuOptionCreateCheckingAccount()
+        {
+            Console.WriteLine("Name of the account: ");
+            string name = Console.ReadLine();
+            Console.WriteLine("Currency: ");
+            string currency = Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Set balance: ");
+                bool success = float.TryParse(Console.ReadLine(), out float balance);
+                if (success)
+                {
                     AccountManager.CreateAccount(name, currency, balance);
                     break;
-                case 2:
-                    Console.WriteLine("Savings account not impemented yet");
-                    break;
-                default:
-                    Console.WriteLine("Not valid choice");
-                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Balance can only be in numbers, try again");
+                } 
             }
+            
         }
+        //print menu and call different methods to transfer money
         public static void MenuOption3()
         {
-            //TODO felhantering
-            Console.WriteLine("1: Transfer money between your accounts\n2: Transfer money to another customers account");
-            bool success = int.TryParse(Console.ReadLine(), out int input);
-            switch (input)
+            while(true)
             {
-                case 1:
-                    Account transferMoney = new Account();
-                    transferMoney.TransferMoney();
-                    break;
-                case 2:
-                    Account transactionToUser = new Account();
-                    transactionToUser.TransactionToUser();
-                    break;
-                default:
-                    Console.WriteLine("Not valid choice");
-                    break;
+                Console.WriteLine("1: Transfer money between your accounts\n2: Transfer money to another customers account");
+                int.TryParse(Console.ReadLine(), out int input);
+                switch (input)
+                {
+                    case 1:
+                        Account transferMoney = new Account();
+                        transferMoney.TransferMoney();
+                        break;
+                    case 2:
+                        Account transactionToUser = new Account();
+                        transactionToUser.TransactionToUser();
+                        break;
+                    default:
+                        Console.WriteLine("Not valid choice, try again");
+                        continue;
+                }
+                break;
             }
         }
+        //apply for loan
         public static void MenuOption4()
         {
             Account loan = new Account();
             loan.Loan();
-            
         }
+        //view account history
         public static void MenuOption5()
         {
             Account history = new Account();
             history.AccountHistory();
         }
-        public static void MenuOption0()
+        //exit program
+        public static void MenuOption6()
         {
-            Environment.Exit(0);
+            Environment.Exit(6);
         }
-
+        //print admin view and call methods depending on key
         public static void PrintMainMenuAdmin()
         {
             while (true)
@@ -190,105 +218,119 @@ namespace CyberCoyotesBank
                 Console.WriteLine("-----------ADMIN VIEW-------------------");
                 Console.WriteLine("What do you want to do");
                 Console.WriteLine();
-                Console.WriteLine("1. Create new users\n" +
+                Console.WriteLine("1. Create new user or admin\n" +
                     "2. Update exchange rate\n" +
-                    "3. View list of users\n" +
-                    "0. Logout");
+                    "3. View list of users and admins\n" +
+                    "4. Logout");
 
-                bool success = int.TryParse(Console.ReadLine(), out int input);
-                if (!success) { continue; }
+                int.TryParse(Console.ReadLine(), out int input);
                 Console.Clear();
                 switch (input)
                 {
                     case 1:
                         AdminMenuOption1();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
                     case 2:
                         AdminMenuOption2();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
                     case 3:
                         AdminMenuOption3();
-                        Console.WriteLine("Press any key to continue!");
+                        Console.WriteLine("Press any key to go back to menu");
                         Console.ReadKey();
                         break;
-                    case 0:
-                        AdminMenuOption0();
-                        Console.WriteLine("Press any key to continue!");
+                    case 4:
+                        AdminMenuOption4();
+                        Console.WriteLine("Press any key to go back to menu");
+                        Console.ReadKey();
+                        break;
+                    default:
+                        Console.WriteLine("Wrong choice, press any key to go back to menu and try again");
                         Console.ReadKey();
                         break;
                 }
 
             }
         }
-
+        //receive input parameters from user and add it to create user method
         public static void AdminMenuOption1()
         {
             bool isAdmin;
-
+            
             Console.WriteLine("Type in username");
             string username = Console.ReadLine();
             Console.WriteLine("Type in password");
             string password = Console.ReadLine();
-            Console.WriteLine("Admin or User?");
-            string role = Console.ReadLine(); //TODO felhantering
-            if (role == "Admin")
+            while(true)
             {
-                isAdmin = true;
-                UserManager.CreateUser(username, password, isAdmin);
-            }
-            else if (role == "User")
-            {
-                isAdmin = false;
-                UserManager.CreateUser(username, password, isAdmin);
+                Console.WriteLine("Admin or User?");
+                string role = Console.ReadLine().ToLower();
+                if (role == "admin")
+                {
+                    isAdmin = true;
+                    UserManager.CreateUser(username, password, isAdmin);
+                    break;
+                }
+                else if (role == "user")
+                {
+                    isAdmin = false;
+                    UserManager.CreateUser(username, password, isAdmin);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("You can only type in Admin or User");
+                }
             }
         }
 
+        //update exchange rate
         public static void AdminMenuOption2()
         {
             Console.WriteLine("Hantera växelkurs");
         }
-
+        //print out users or admins through methods
         public static void AdminMenuOption3()
         {
-            Console.WriteLine("1. View list of users\n2. View list of admins\n3. View list of all admins and users");
-            bool success = int.TryParse(Console.ReadLine(), out int input);//TODO felhantering
-
-            switch(input)
+            while(true)
             {
-                case 1:
-                    foreach (User user in UserManager.GetUsersList())
-                    {
-                        Console.WriteLine(user.UserName);
-                    }
-                    break;
-                case 2:
-                    foreach (User user in UserManager.GetAdminsList())
-                    {
-                        Console.WriteLine(user.UserName);
-                    }
-                    break;
-                case 3:
-                    foreach (User user in UserManager.GetUsersAndAdmins())
-                    {
-                        Console.WriteLine(user.UserName);
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Wrong choice");
-                    break;
+                Console.WriteLine("1. View list of users\n2. View list of admins\n3. View list of all admins and users");
+                int.TryParse(Console.ReadLine(), out int input);
+                switch (input)
+                {
+                    case 1:
+                        foreach (User user in UserManager.GetUsersList())
+                        {
+                            Console.WriteLine(user.UserName);
+                        }
+                        break;
+                    case 2:
+                        foreach (User user in UserManager.GetAdminsList())
+                        {
+                            Console.WriteLine(user.UserName);
+                        }
+                        break;
+                    case 3:
+                        foreach (User user in UserManager.GetUsersAndAdmins())
+                        {
+                            Console.WriteLine(user.UserName);
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Not valid choice, try again");
+                        continue;
+                }
+                break;
             }
-
         }
-
-        public static void AdminMenuOption0()
+        //exit program
+        public static void AdminMenuOption4()
         {
-            Environment.Exit(0);
+            Environment.Exit(4);
         }
-
     }
 }
 
