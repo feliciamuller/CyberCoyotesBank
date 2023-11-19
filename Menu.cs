@@ -159,7 +159,6 @@ namespace CyberCoyotesBank
                 if (success)
                 {
                     AccountManager.CreateAccount(name, currency, balance);
-                    Console.WriteLine($"Account {name} successfully created!");
                     break;
                 }
                 else
@@ -273,14 +272,12 @@ namespace CyberCoyotesBank
                 {
                     isAdmin = true;
                     UserManager.CreateUser(username, password, isAdmin);
-                    Console.WriteLine($"Admin with username {username} successfully created!");
                     break;
                 }
                 else if (role == "user")
                 {
                     isAdmin = false;
                     UserManager.CreateUser(username, password, isAdmin);
-                    Console.WriteLine($"User with username {username} successfully created!");
                     break;
                 }
                 else
