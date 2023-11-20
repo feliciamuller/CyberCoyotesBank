@@ -7,8 +7,7 @@ namespace CyberCoyotesBank
     {
         static void Main(string[] args)
         {
-           Menu.PrintLogin();
+            Menu.PrintLogin();
         }
-
     }
 }
