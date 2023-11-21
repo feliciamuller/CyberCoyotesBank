@@ -111,6 +111,7 @@ namespace CyberCoyotesBank
                     idNameToCurrency = holder.Currency;
                 }
             }
+
             // Adds and removes balance from each account balance that the user have put in.
             if (idRemoveFundsHolder == idRemoveFunds && idAddFundsHolder == idAddFunds && balanceHolder >= result)
             {
@@ -226,10 +227,10 @@ namespace CyberCoyotesBank
             // Finds a specifik user in the string list and writes out the item.
             foreach (var item in accountHistory)
             {
-                if (item.Contains(user.UserName))
-                {
+                //if (item.Contains(user.UserName))
+                
                     Console.WriteLine(item);
-                }
+                
             }
         }
     }

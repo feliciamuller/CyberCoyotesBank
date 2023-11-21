@@ -12,6 +12,8 @@ namespace CyberCoyotesBank
 {
     static class Menu
     {
+        static private Account accountNew;
+
         //check conditions for username and password and manage login
         static public void PrintLogin()
         {
@@ -118,9 +120,9 @@ namespace CyberCoyotesBank
         {
             //print out account list of logged in user
             User user = LoginManager.GetActiveUser();
-            foreach (Account account in AccountManager.GetAllAccoutsUser(user))
+            foreach (Account account in AccountManager.GetAllAccountsUser(user))
             {
-                Console.WriteLine($"Account ID: {account.Id} Account name: {account.Name} Currency: {account.Currency} Balance: {account.Balance}");
+                Console.WriteLine($"Account ID: {account._id} Account name: {account.Name} Currency: {account.Currency} Balance: {account.Balance}");
             }
         }
         //print menu and call methods for creating bank account
@@ -178,12 +180,12 @@ namespace CyberCoyotesBank
                 switch (input)
                 {
                     case 1:
-                        Account transferMoney = new Account();
-                        transferMoney.TransferMoney();
+                        
+                        accountNew.TransferMoney(LoginManager.GetActiveUser()) ;
                         break;
                     case 2:
                         Account transactionToUser = new Account();
-                        transactionToUser.TransactionToUser();
+                        transactionToUser.TransactionToUser(LoginManager.GetActiveUser());
                         break;
                     default:
                         Console.WriteLine("Not valid choice, try again");
@@ -196,13 +198,13 @@ namespace CyberCoyotesBank
         public static void MenuOption4()
         {
             Account loan = new Account();
-            loan.Loan();
+            loan.Loan(LoginManager.GetActiveUser());
         }
         //view account history
         public static void MenuOption5()
         {
             Account history = new Account();
-            history.AccountHistory();
+            history.AccountHistory(LoginManager.GetActiveUser());
         }
         //exit program
         public static void MenuOption6()
