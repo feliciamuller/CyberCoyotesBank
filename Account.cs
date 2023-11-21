@@ -118,7 +118,7 @@ namespace CyberCoyotesBank
                 }
             }
             // Adds and removes balance from each account balance that the user have put in.
-            if (idRemoveFundsHolder == idRemoveFunds && idAddFundsHolder == idAddFunds && balanceHolder >= result)
+            if (idRemoveFundsHolder == idRemoveFunds && idAddFundsHolder == idAddFunds && (balanceHolder - ReservedBalance) >= result)
             {
                 foreach (var funds in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
                 {
@@ -236,7 +236,7 @@ namespace CyberCoyotesBank
             Balance = Balance - amountToMove;
             Console.WriteLine("Transaction succesful.");
             accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
-            toAcc.accountHistory.Add();
+            //toAcc.accountHistory.Add();
         }
     }
 }
