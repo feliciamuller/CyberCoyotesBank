@@ -8,8 +8,15 @@ namespace CyberCoyotesBank
 {
     internal class TransactionInfo
     {
-        Account FromAcc;
-        Account ToAcc;
-        int AmountToMove;
+        public Account FromAcc;
+       public  Account ToAcc;
+       public float AmountToMove;
+
+        public TransactionInfo(Account _fromAcc, Account _toAcc, float amount )
+        {
+            FromAcc = _fromAcc;
+            ToAcc = _toAcc;
+            AmountToMove = amount;
+        }
     }
 }
