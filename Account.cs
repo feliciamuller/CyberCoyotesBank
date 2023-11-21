@@ -214,9 +214,7 @@ namespace CyberCoyotesBank
             // Finds a specifik user in the string list and writes out the item.
             foreach (var item in accountHistory)
             {
-                
-                    Console.WriteLine(item);
-               
+                Console.WriteLine(item);  
             }
         }
     }
