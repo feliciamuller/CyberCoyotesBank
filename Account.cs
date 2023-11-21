@@ -12,7 +12,7 @@ namespace CyberCoyotesBank
         public User Owner { get; set; }
         public int _id = 0;
         public string Name { get; set; }
-        public float Balance { get ; set; }
+        public float Balance { get; set; }
         public string Currency { get; set; }
 
         private float ReservedBalance;
@@ -21,7 +21,7 @@ namespace CyberCoyotesBank
         public List<string> accountHistory = new List<string>();
         public List<TransactionInfo> transactionList = new List<TransactionInfo>();
 
-        public List<object> userList { get; set ; }
+        public List<object> userList { get; set; }
 
         public Account()
         {
@@ -44,7 +44,7 @@ namespace CyberCoyotesBank
             Balance = balance;
         }
 
-        public void CheckBalance(User user) 
+        public void CheckBalance(User user)
         {
             // Writes out info of the users accounts.
             foreach (var balance in AccountManager.GetAllAccountsUser(user))
@@ -52,7 +52,7 @@ namespace CyberCoyotesBank
                 Console.WriteLine($"ID : {balance._id} Account Name: {balance.Name}. \nBalance: {balance.Balance} {balance.Currency}");
             }
         }
-        public void TransferMoney() 
+        public void TransferMoney()
         {
             //var userInput = AccountManager.GetAllAccountsUser(user);
             //Console.WriteLine("Your accounts:");
@@ -78,14 +78,14 @@ namespace CyberCoyotesBank
             //}
 
             Console.WriteLine("Please typ in the ID of the account that you want to transfer funds to.");
-            
+
             while (!int.TryParse(Console.ReadLine(), out idAddFunds))
             {
 
                 Console.WriteLine("Use only digits.");
             }
             //  checks so the user can't transfer to the same account.
-            while (idAddFunds == _id) 
+            while (idAddFunds == _id)
             {
                 Console.WriteLine("You can't transfer money to the same account");
                 while (!int.TryParse(Console.ReadLine(), out idAddFunds))
@@ -121,7 +121,7 @@ namespace CyberCoyotesBank
 
             Console.Clear();
             // A loop just to get and info from each variable of that account and saves it.
-            foreach (var holder in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser())) 
+            foreach (var holder in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
             {
                 if (holder._id == idAddFunds)
                 {
@@ -138,21 +138,21 @@ namespace CyberCoyotesBank
                 {
                     if (idRemoveFunds == funds._id)
                     {
-                        
-                            funds.Balance = funds.Balance - result;
-                        
+
+                        funds.Balance = funds.Balance - result;
+
                     }
                     else if (idAddFunds == funds._id)
                     {
-                        
-                            funds.Balance = funds.Balance + result;
-                        
+
+                        funds.Balance = funds.Balance + result;
+
                     }
                 }
                 Console.WriteLine("Transaction succesful.");
                 accountHistory.Add($"Transaction succesful! From Account owner: {userName}. Name: {idNameFrom}. ID: {idRemoveFunds} Funds: -{result} {idNameFromCurrency}. To Account owner: {userName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{result} {idNameToCurrency}. {DateTime.Now}");
             }
-            else 
+            else
             {
                 Console.WriteLine("Could not make your request. Please check if you got valid funds and/or that you typed in the right ID.");
 
@@ -163,15 +163,15 @@ namespace CyberCoyotesBank
         {
             int inputUserId;
             float result = -1;
-            
+
             Console.WriteLine("Please typ in the ID of the account you would like transfer to.");
             while (!int.TryParse(Console.ReadLine(), out inputUserId))
             {
-                    Console.WriteLine("Use only digits.");
+                Console.WriteLine("Use only digits.");
 
             }
             //  checks so the user can't transfer to the same account.
-            while (inputUserId == _id) 
+            while (inputUserId == _id)
             {
                 Console.WriteLine("You can't transfer to the same account.");
                 while (!int.TryParse(Console.ReadLine(), out inputUserId))
@@ -204,64 +204,65 @@ namespace CyberCoyotesBank
             Console.Clear();
 
 
-                else if (idBalance._id == inputUserId)
-                {
-                    if (accountId.Balance >= result)
-                    {
-                       idBalance.Balance = idBalance.Balance + result;
-                        Balance = Balance - result;
-                        Console.WriteLine("Transaction succesful.");
-                        accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{result} {Currency}. To Account ID: {idBalance._id} Funds: +{result} {idBalance.Currency}. {DateTime.Now}");
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Not enough funds.");
-                    }
-  
-        }
 
-        public void Loan(User user) 
-        {
-            // Adds all balance from every account the user have and then multiplie it with 5.
-            float maxBalance = 0;
-            foreach (var item in AccountManager.GetAllAccountsUser(user)) 
+            if ((Balance - ReservedBalance) >= result)
             {
-                maxBalance = maxBalance + item.Balance;
+                transactionList.Add(new TransactionInfo(this, idBalance, result));
+                Transaction trans = new Transaction("test", StartTimedTransactions);
+                Menu.transaction15Min.ScheduleTransaction(trans);
+                Console.WriteLine("Transaction queued.");
+                ReservedBalance += result;
+
             }
-            maxBalance = maxBalance * 5;
-            Console.WriteLine($"You are allowed to take a loan for a maxvalue of {maxBalance} SEK. Please contact the bank for futher info.");
-        }
-        public void AccountHistory()
-        {
-            // Finds a specifik user in the string list and writes out the item.
-            foreach (var item in accountHistory)
+            else
             {
-                
-                    Console.WriteLine(item);
-               
-            }
-        }
-
-
-        public void StartTimedTransactions()
-        {
-            foreach (var transaction in transactionList)
-            {
-                TimedTransfere(transaction.ToAcc, transaction.AmountToMove);
+                Console.WriteLine("Not enough funds.");
             }
 
-            transactionList.Clear();
+        }
+    
+
+    public void Loan(User user)
+    {
+        // Adds all balance from every account the user have and then multiplie it with 5.
+        float maxBalance = 0;
+        foreach (var item in AccountManager.GetAllAccountsUser(user))
+        {
+            maxBalance = maxBalance + item.Balance;
+        }
+        maxBalance = maxBalance * 5;
+        Console.WriteLine($"You are allowed to take a loan for a maxvalue of {maxBalance} SEK. Please contact the bank for futher info.");
+    }
+    public void AccountHistory()
+    {
+        // Finds a specifik user in the string list and writes out the item.
+        foreach (var item in accountHistory)
+        {
+
+            Console.WriteLine(item);
+
+        }
+    }
+
+
+    public void StartTimedTransactions()
+    {
+        foreach (var transaction in transactionList)
+        {
+            TimedTransfere(transaction.ToAcc, transaction.AmountToMove);
         }
 
-        private void TimedTransfere(Account toAcc, float amountToMove)
-        {
-            ReservedBalance -= amountToMove;
-            toAcc.Balance = toAcc.Balance + amountToMove;
-            Balance = Balance - amountToMove;
-            Console.WriteLine("Transaction succesful.");
-            accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
-            //toAcc.accountHistory.Add();
+        transactionList.Clear();
+    }
+
+    private void TimedTransfere(Account toAcc, float amountToMove)
+    {
+        ReservedBalance -= amountToMove;
+        toAcc.Balance = toAcc.Balance + amountToMove;
+        Balance = Balance - amountToMove;
+        Console.WriteLine("Transaction succesful.");
+        accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
+         toAcc.accountHistory.Add($"Transaction succesful from other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
         }
     }
 }
