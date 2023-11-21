@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -13,8 +14,10 @@ namespace CyberCoyotesBank
     static class Menu
     {
         //check conditions for username and password and manage login
+        public static Transaction15min transaction15Min = new Transaction15min();
         static public void PrintLogin()
         {
+           
             int loginAttempts = 0;
             while (loginAttempts < 3)
             {
