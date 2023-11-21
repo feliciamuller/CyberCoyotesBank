@@ -10,9 +10,9 @@ namespace CyberCoyotesBank
     static internal class AccountManager
     {
         //List of Accounts
-        static private List<Account> accounts = new List<Account>() { new Account(99, "testAccount", "SEK", 25000, UserManager.GetUser(102)) };
+        static private List<Account> accounts = new List<Account>() { new Account(99, "testAccount", "SEK", 25000, UserManager.GetUser(102)), new Account(100, "testAccount2", "SEK", 25000, UserManager.GetUser(102)), new Account(101, "user2Account", "SEK", 25000, UserManager.GetUser(103)) };
         //Last Id used to create an account
-        static private int lastId = 99;
+        static private int lastId = 100;
 
         //Runs account constructor and adds a new account to list
         static public void CreateAccount(string name, string currency, float balance)
@@ -34,6 +34,9 @@ namespace CyberCoyotesBank
             return accounts.FindAll(x => x.Owner == user);
         }
 
-
+        static public List<Account> GetAllAccounts()
+        {
+            return accounts;
+        }
     }
 }
