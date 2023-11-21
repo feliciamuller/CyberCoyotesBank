@@ -175,17 +175,19 @@ namespace CyberCoyotesBank
         {
             while(true)
             {
+                
                 Console.WriteLine("1: Transfer money between your accounts\n2: Transfer money to another customers account");
                 int.TryParse(Console.ReadLine(), out int input);
                 switch (input)
                 {
                     case 1:
-                        
-                        accountNew.TransferMoney(LoginManager.GetActiveUser()) ;
+                        Account acc = GetAccountToTransferFrom();
+
+                        acc.TransferMoney();
                         break;
                     case 2:
-                        Account transactionToUser = new Account();
-                        transactionToUser.TransactionToUser(LoginManager.GetActiveUser());
+                        acc = GetAccountToTransferFrom();
+                        acc.TransactionToUser();
                         break;
                     default:
                         Console.WriteLine("Not valid choice, try again");
@@ -194,6 +196,26 @@ namespace CyberCoyotesBank
                 break;
             }
         }
+
+        private static Account GetAccountToTransferFrom()
+        {
+            int accountToUse;
+            var userInput = AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser());
+            Console.WriteLine("Your accounts:");
+            foreach (var i in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
+            {
+                Console.WriteLine($"Account ID: {i._id} {i.Name}. \nBalance: {i.Balance} {i.Currency}");
+            }
+
+            Console.WriteLine("Please typ in the ID of the account that you want to transfer funds from.");
+            while (!int.TryParse(Console.ReadLine(), out accountToUse))
+            {
+                Console.WriteLine("Use only digits.");
+            }
+
+           return AccountManager.GetAccount(accountToUse);
+        }
+
         //apply for loan
         public static void MenuOption4()
         {
@@ -203,13 +225,17 @@ namespace CyberCoyotesBank
         //view account history
         public static void MenuOption5()
         {
-            Account history = new Account();
-            history.AccountHistory(LoginManager.GetActiveUser());
+            foreach (Account account in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
+            {
+                account.AccountHistory();
+            }
+            
         }
         //exit program
         public static void MenuOption6()
         {
-            Environment.Exit(6);
+            PrintLogin();
+            //Environment.Exit(6);
         }
         //print admin view and call methods depending on key
         public static void PrintMainMenuAdmin()
