@@ -14,6 +14,7 @@ namespace CyberCoyotesBank
         public string Name { get; set; }
         public float Balance { get; set; }
         public string Currency { get; set; }
+        public float Interest { get; set; }
 
         private float ReservedBalance;
 
@@ -43,7 +44,15 @@ namespace CyberCoyotesBank
             Currency = currency;
             Balance = balance;
         }
-
+        public Account(int id, string name, string currency, float balance, float interest, User user)
+        {
+            Owner = user;
+            Name = name;
+            _id = id;
+            Currency = currency;
+            Balance = balance;
+            Interest = interest;
+        }
         public void CheckBalance(User user)
         {
             // Writes out info of the users accounts.

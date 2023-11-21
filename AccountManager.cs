@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace CyberCoyotesBank
 {
@@ -21,8 +22,15 @@ namespace CyberCoyotesBank
 
             lastId++;
             accounts.Add(new Account(lastId, name, currency, balance,LoginManager.GetActiveUser()));
+            Console.WriteLine("Checking account created!");
         }
 
+        static public void CreateSavingsAccount(string name, string currency, float balance, float interest)
+        {
+            lastId++;
+            accounts.Add(new Account(lastId, name, currency, balance, interest, LoginManager.GetActiveUser()));
+            Console.WriteLine($"Savings account created and you get an interest of {interest}%");
+        }
 
         //find account from id
         static public Account GetAccount(int id)
