@@ -12,6 +12,9 @@ namespace CyberCoyotesBank
 {
     static class Menu
     {
+        //creates instance of timer for delayed tranactions
+        public static Transaction15min transaction15Min = new Transaction15min();
+
         //check conditions for username and password and manage login
         static public void PrintLogin()
         {
