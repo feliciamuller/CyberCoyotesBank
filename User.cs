@@ -20,17 +20,6 @@ namespace CyberCoyotesBank
             ID = id; 
         }
        
-        // Här ska man kunna välja vilket typ av konto man ska öppna
-        // Sparkonto eller annat konto
-        // Man ska välja valuta
-        // På sparkonto ska man se hur mycket ränta jag får när jag sätter in pengar
-        // Kontoöppnandet ska bli ett avtryck i historiken i loggen
-        // Kontot ska få ett unikt Id
-        public void CreateAccount()
-        {
-            Console.WriteLine("Ett konto är skapat för användare: " + UserName);
-        }
-
         // Här ska man kunna låna pengar och se hur mycket ränta det blir på lånet
         // Lånet ska bli ett avtryck i historiken i loggen
         public void Loan()

@@ -15,7 +15,7 @@ namespace CyberCoyotesBank
         public Transaction15min()
         {
             pendingTransactions = new List<Transaction>();
-            timer = new System.Timers.Timer(15 * 60 * 1000); // 15 minuter i millisekunden
+            timer = new System.Timers.Timer(15 * 60 * 1000); // 15 minutes to the millisecund
             timer.Elapsed += OnTimerElapsed;
             timer.Start();
         }
@@ -27,14 +27,14 @@ namespace CyberCoyotesBank
 
         public void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            // Transaktionslogik som körs varje 15:e minut
+            // Transaction logic that runs every 15 minutes
             Console.WriteLine($"Utför transaktioner kl {DateTime.Now}");
             foreach (var transaction in pendingTransactions)
             {
                 transaction.Execute();
             }
 
-            // Rensa den planerade transaktionslistan
+            // Clear the scheduled transaction list
             pendingTransactions.Clear();
         }
     }
