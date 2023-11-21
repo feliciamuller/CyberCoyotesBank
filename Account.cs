@@ -15,6 +15,8 @@ namespace CyberCoyotesBank
         public float Balance { get ; set; }
         public string Currency { get; set; }
 
+        private float ReservedBalance;
+
         public List<Account> accountLists = new List<Account>();
         public List<string> accountHistory = new List<string>();
         public List<TransactionInfo> transactionList = new List<TransactionInfo>();
@@ -145,7 +147,6 @@ namespace CyberCoyotesBank
         }
         public void TransactionToUser()
         {
-            int inputAccountId;
             int inputUserId;
             float result = -1;
             
@@ -155,7 +156,14 @@ namespace CyberCoyotesBank
                 Console.WriteLine("Use only digits.");
             }
 
+            //Checks if the accounts exist
             var idBalance = AccountManager.GetAccount(inputUserId);
+            if (idBalance == null)
+            {
+                Console.WriteLine("That account don't exist.");
+                return;
+            }
+
             // checks so the input is a number and got a positiv value.
             Console.WriteLine("How much would you like to transfer?");
             while (result < 0)
@@ -171,39 +179,23 @@ namespace CyberCoyotesBank
             }
             Console.Clear();
 
-            transactionList.Add(new TransactionInfo(this, idBalance, result));
-            Transaction trans = new Transaction("test", StartTimedTransactions);
-            Menu.transaction15Min.ScheduleTransaction(trans);
-           
 
-            // Checks if the accounts exist and checks if you got enough funds. 
-            //foreach (var accountId in AccountManager.GetAllAccounts())
-            //{
-            
-            //    if (idBalance == null)
-            //    {
-            //        Console.WriteLine("That account don't exist.");
-            //        break;
-            //    }
-
-            //    else if (idBalance._id == inputUserId)
-            //    {
-            //        if (accountId.Balance >= result)
-            //        {
-            //           idBalance.Balance = idBalance.Balance + result;
-            //            Balance = Balance - result;
-            //            Console.WriteLine("Transaction succesful.");
-            //            accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{result} {Currency}. To Account ID: {idBalance._id} Funds: +{result} {idBalance.Currency}. {DateTime.Now}");
-            //            break;
-            //        }
-            //        else
-            //        {
-            //            Console.WriteLine("Not enough funds.");
-            //        }
-
-            //    }
-            //}
+            //checks if you got enough funds.
+                    if ((Balance - ReservedBalance) >= result)
+                    {
+                        transactionList.Add(new TransactionInfo(this, idBalance, result));
+                        Transaction trans = new Transaction("test", StartTimedTransactions);
+                        Menu.transaction15Min.ScheduleTransaction(trans);
+                        Console.WriteLine("Transaction queued.");
+                        ReservedBalance += result;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not enough funds.");
+                    }
+  
         }
+
         public void Loan(User user) 
         {
             // Adds all balance from every account the user have and then multiplie it with 5.
@@ -239,11 +231,12 @@ namespace CyberCoyotesBank
 
         private void TimedTransfere(Account toAcc, float amountToMove)
         {
+            ReservedBalance -= amountToMove;
             toAcc.Balance = toAcc.Balance + amountToMove;
             Balance = Balance - amountToMove;
             Console.WriteLine("Transaction succesful.");
             accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
-
+            toAcc.accountHistory.Add();
         }
     }
 }
