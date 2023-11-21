@@ -12,6 +12,8 @@ namespace CyberCoyotesBank
 {
     static class Menu
     {
+        static private Account accountNew;
+
         //check conditions for username and password and manage login
         static public void PrintLogin()
         {

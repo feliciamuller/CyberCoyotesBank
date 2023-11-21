@@ -75,9 +75,22 @@ namespace CyberCoyotesBank
             //}
 
             Console.WriteLine("Please typ in the ID of the account that you want to transfer funds to.");
+            
             while (!int.TryParse(Console.ReadLine(), out idAddFunds))
             {
+
                 Console.WriteLine("Use only digits.");
+            }
+            //  checks so the user can't transfer to the same account.
+            while (idAddFunds == _id) 
+            {
+                Console.WriteLine("You can't transfer money to the same account");
+                while (!int.TryParse(Console.ReadLine(), out idAddFunds))
+                {
+
+                    Console.WriteLine("Use only digits.");
+                }
+
             }
             // Checks so the user have put in a valid number.
             Console.WriteLine("How much do you want to transfer? Use only digits please.");
@@ -114,6 +127,7 @@ namespace CyberCoyotesBank
                     idNameToCurrency = holder.Currency;
                 }
             }
+
             // Adds and removes balance from each account balance that the user have put in.
             if (idRemoveFundsHolder == idRemoveFunds && idAddFundsHolder == idAddFunds && balanceHolder >= result)
             {
@@ -151,7 +165,17 @@ namespace CyberCoyotesBank
             Console.WriteLine("Please typ in the ID of the account you would like transfer to.");
             while (!int.TryParse(Console.ReadLine(), out inputUserId))
             {
-                Console.WriteLine("Use only digits.");
+                    Console.WriteLine("Use only digits.");
+
+            }
+            //  checks so the user can't transfer to the same account.
+            while (inputUserId == _id) 
+            {
+                Console.WriteLine("You can't transfer to the same account.");
+                while (!int.TryParse(Console.ReadLine(), out inputUserId))
+                {
+                    Console.WriteLine("Use only digits.");
+                }
             }
 
             var idBalance = AccountManager.GetAccount(inputUserId);
@@ -187,6 +211,7 @@ namespace CyberCoyotesBank
                         Balance = Balance - result;
                         Console.WriteLine("Transaction succesful.");
                         accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{result} {Currency}. To Account ID: {idBalance._id} Funds: +{result} {idBalance.Currency}. {DateTime.Now}");
+                        idBalance.accountHistory.Add($"Transaction succesful from other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{result} {Currency}. To Account ID: {idBalance._id} Funds: +{result} {idBalance.Currency}. {DateTime.Now}");
                         break;
                     }
                     else
@@ -213,9 +238,7 @@ namespace CyberCoyotesBank
             // Finds a specifik user in the string list and writes out the item.
             foreach (var item in accountHistory)
             {
-                
-                    Console.WriteLine(item);
-               
+                Console.WriteLine(item);  
             }
         }
     }
