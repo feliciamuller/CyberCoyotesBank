@@ -17,6 +17,7 @@ namespace CyberCoyotesBank
 
         public List<Account> accountLists = new List<Account>();
         public List<string> accountHistory = new List<string>();
+        public List<TransactionInfo> transactionList = new List<TransactionInfo>();
 
         public List<object> userList { get; set ; }
 
@@ -169,33 +170,39 @@ namespace CyberCoyotesBank
                 }
             }
             Console.Clear();
+
+            transactionList.Add(new TransactionInfo(this, idBalance, result));
+            Transaction trans = new Transaction("test", StartTimedTransactions);
+            Menu.transaction15Min.ScheduleTransaction(trans);
+           
+
             // Checks if the accounts exist and checks if you got enough funds. 
-            foreach (var accountId in AccountManager.GetAllAccounts())
-            {
+            //foreach (var accountId in AccountManager.GetAllAccounts())
+            //{
             
-                if (idBalance == null)
-                {
-                    Console.WriteLine("That account don't exist.");
-                    break;
-                }
+            //    if (idBalance == null)
+            //    {
+            //        Console.WriteLine("That account don't exist.");
+            //        break;
+            //    }
 
-                else if (idBalance._id == inputUserId)
-                {
-                    if (accountId.Balance >= result)
-                    {
-                       idBalance.Balance = idBalance.Balance + result;
-                        Balance = Balance - result;
-                        Console.WriteLine("Transaction succesful.");
-                        accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{result} {Currency}. To Account ID: {idBalance._id} Funds: +{result} {idBalance.Currency}. {DateTime.Now}");
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Not enough funds.");
-                    }
+            //    else if (idBalance._id == inputUserId)
+            //    {
+            //        if (accountId.Balance >= result)
+            //        {
+            //           idBalance.Balance = idBalance.Balance + result;
+            //            Balance = Balance - result;
+            //            Console.WriteLine("Transaction succesful.");
+            //            accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{result} {Currency}. To Account ID: {idBalance._id} Funds: +{result} {idBalance.Currency}. {DateTime.Now}");
+            //            break;
+            //        }
+            //        else
+            //        {
+            //            Console.WriteLine("Not enough funds.");
+            //        }
 
-                }
-            }
+            //    }
+            //}
         }
         public void Loan(User user) 
         {
@@ -217,6 +224,26 @@ namespace CyberCoyotesBank
                     Console.WriteLine(item);
                
             }
+        }
+
+
+        public void StartTimedTransactions()
+        {
+            foreach (var transaction in transactionList)
+            {
+                TimedTransfere(transaction.ToAcc, transaction.AmountToMove);
+            }
+
+            transactionList.Clear();
+        }
+
+        private void TimedTransfere(Account toAcc, float amountToMove)
+        {
+            toAcc.Balance = toAcc.Balance + amountToMove;
+            Balance = Balance - amountToMove;
+            Console.WriteLine("Transaction succesful.");
+            accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
+
         }
     }
 }
