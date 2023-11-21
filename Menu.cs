@@ -15,16 +15,16 @@ namespace CyberCoyotesBank
         //check conditions for username and password and manage login
         static public void PrintLogin()
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
             int loginAttempts = 0;
             while (loginAttempts < 3)
             {
-
                 Console.WriteLine(@" __| |____________________| |__ 
 (__| |____________________| |__)
    | |  CyberCoyotesBank  | |   
  __| |____________________| |__ 
 (__|_|____________________|_|__)");
-
 
                 Console.WriteLine("Username:");
                 string usernameInput = Console.ReadLine();
@@ -54,12 +54,13 @@ namespace CyberCoyotesBank
                     Console.WriteLine("Press any key to exit app");
                     Console.ReadKey();
                     Environment.Exit(0);
-                }
+                } 
             }
         }
         //print user menu and call methods depending on key
         static public void PrintMainMenu()
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             while (true)
             {
                 Console.Clear();
@@ -229,15 +230,15 @@ namespace CyberCoyotesBank
             }
             
         }
-        //exit program
+        //print login menu
         public static void MenuOption6()
         {
             PrintLogin();
-            //Environment.Exit(6);
         }
         //print admin view and call methods depending on key
         public static void PrintMainMenuAdmin()
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             while (true)
             {
                 Console.Clear();
@@ -352,10 +353,10 @@ namespace CyberCoyotesBank
                 break;
             }
         }
-        //exit program
+        //Print login menu
         public static void AdminMenuOption4()
         {
-            Environment.Exit(4);
+            PrintLogin();
         }
     }
 }
