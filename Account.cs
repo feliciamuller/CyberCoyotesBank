@@ -208,7 +208,36 @@ namespace CyberCoyotesBank
 
             if ((Balance - ReservedBalance) >= result)
             {
-                transactionList.Add(new TransactionInfo(this, idBalance, result));
+                double resultToUser = 0;
+                if (Currency == idBalance.Currency)
+                {
+                    resultToUser = result;
+                }
+                else if (idBalance.Currency == "dollar" && Currency == "sek")
+                {
+                    resultToUser = resultToUser + result / 0.095;
+                }
+                else if (idBalance.Currency == "euro" && Currency == "sek")
+                {
+                    resultToUser = resultToUser + result * 0.087;
+                }
+                else if (idBalance.Currency == "sek" && Currency == "euro")
+                {
+                    resultToUser = resultToUser + result * 11.43;
+                }
+                else if (idBalance.Currency == "dollar" && Currency == "euro")
+                {
+                    resultToUser = resultToUser + result * 1.09;
+                }
+                else if (idBalance.Currency == "sek" && Currency == "dollar")
+                {
+                    resultToUser = resultToUser + result * 10.48;
+                }
+                else if (idBalance.Currency == "euro" && Currency == "dollar")
+                {
+                    resultToUser = resultToUser + result * 0.92;
+                }
+                transactionList.Add(new TransactionInfo(this, idBalance, resultToUser));
                 Transaction trans = new Transaction("test", StartTimedTransactions);
                 Menu.transaction15Min.ScheduleTransaction(trans);
                 Console.WriteLine("Transaction queued.");
@@ -257,7 +286,7 @@ namespace CyberCoyotesBank
         }
         transactionList.Clear();
     }
-    private void TimedTransfere(Account toAcc, float amountToMove)
+    private void TimedTransfere(Account toAcc, double amountToMove)
     {
         ReservedBalance -= amountToMove;
         toAcc.Balance = toAcc.Balance + amountToMove;

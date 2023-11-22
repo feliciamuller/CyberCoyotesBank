@@ -10,9 +10,9 @@ namespace CyberCoyotesBank
     {
         public Account FromAcc;
        public  Account ToAcc;
-       public float AmountToMove;
+       public double AmountToMove;
 
-        public TransactionInfo(Account _fromAcc, Account _toAcc, float amount )
+        public TransactionInfo(Account _fromAcc, Account _toAcc, double amount )
         {
             FromAcc = _fromAcc;
             ToAcc = _toAcc;
