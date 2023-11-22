@@ -9,11 +9,11 @@ namespace CyberCoyotesBank
     static internal class LoginManager
     {
 
-        //Holds curret user logged in 
+        // Holds current user logged in 
         static User activeUser;
 
-        //checks list of users to find if username exists.
-        //if found in list check if username and password is correct and return true/false
+        // Checks list of users to find if the username exists
+        // If it's found in the list check if the username and password is correct and return true/false
         static public bool Login(string username, string password)
         {
 
@@ -32,9 +32,9 @@ namespace CyberCoyotesBank
 
         }
 
-        //Used to check password of active user
-        //can be used for password checks on actions with extra security
-        //example: enter password before transfering money
+        // Used to check password of active user
+        // Can be used for password checks on actions with extra security
+        // Example: enter password before transfering money
         static public bool Password(string password)
         {
             if (password == activeUser.Password)
