@@ -24,7 +24,7 @@ namespace CyberCoyotesBank
         // Lånet ska bli ett avtryck i historiken i loggen
         public void Loan()
         {
-            Console.WriteLine("Lånet är beviljat för användare: " + UserName);
+            Console.WriteLine("The application for a loan has been granted for the user: " + UserName);
         }
     }
 }
