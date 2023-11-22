@@ -125,20 +125,20 @@ namespace CyberCoyotesBank
             
             foreach (Account account in AccountManager.GetAllAccountsUser(user))
             {
+
                 //check conditions if there is interest on the account
                 if(account.Interest == 0)
                 {
                     Console.WriteLine("Type of account: Checking account");
-                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance}");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})");
                     Console.WriteLine();
                 }
                 else
                 {
                     Console.WriteLine("Type of account: Savings account");
-                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance}\nInterest: {account.Interest}%");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})\nInterest: {account.Interest}%");
                     Console.WriteLine();
                 }
-
             }
         }
         //print menu and call methods for creating bank account
@@ -318,7 +318,6 @@ namespace CyberCoyotesBank
         private static Account GetAccountToTransferFrom()
         {
             int accountToUse;
-            var userInput = AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser());
             Console.WriteLine("Your accounts:");
             foreach (var i in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
             {
@@ -330,8 +329,23 @@ namespace CyberCoyotesBank
             {
                 Console.WriteLine("Use only digits.");
             }
+            while (true) 
+            {
+                foreach (var item in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
+                {
+                    if (accountToUse == item._id)
+                    {
+                        return AccountManager.GetAccount(accountToUse);
+                    }
+                }
+                Console.WriteLine("Please typ in an account you own.");
 
-           return AccountManager.GetAccount(accountToUse);
+                while (!int.TryParse(Console.ReadLine(), out accountToUse))
+                {
+                    Console.WriteLine("Use only digits.");
+                }
+            }
+            return AccountManager.GetAccount(accountToUse);
         }
 
         //apply for loan
