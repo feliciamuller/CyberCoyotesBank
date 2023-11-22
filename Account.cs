@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,11 @@ namespace CyberCoyotesBank
         public User Owner { get; set; }
         public int _id = 0;
         public string Name { get; set; }
-        public float Balance { get; set; }
+        public double Balance { get; set; }
         public string Currency { get; set; }
         public float Interest { get; set; }
 
-        public float ReservedBalance;
+        public double ReservedBalance;
 
         public List<Account> accountLists = new List<Account>();
         public List<string> accountHistory = new List<string>();
@@ -29,14 +30,14 @@ namespace CyberCoyotesBank
 
         }
 
-        public Account(int id, string currency, float balance)
+        public Account(int id, string currency, double balance)
         {
             _id = id;
             Currency = currency;
             Balance = balance;
         }
 
-        public Account(int id, string name, string currency, float balance, User user)
+        public Account(int id, string name, string currency, double balance, User user)
         {
             Owner = user;
             Name = name;
@@ -53,22 +54,14 @@ namespace CyberCoyotesBank
             Balance = balance;
             Interest = interest;
         }
-        public void CheckBalance(User user)
-        {
-            // Writes out info of the users accounts.
-            foreach (var balance in AccountManager.GetAllAccountsUser(user))
-            {
-                Console.WriteLine($"ID : {balance._id} Account Name: {balance.Name}. \nBalance: {balance.Balance} {balance.Currency}");
-            }
-        }
         public void TransferMoney()
         {
             int idAddFundsHolder = 0;
             string idNameTo = "";
             string idNameToCurrency = "";
             int idAddFunds;
-            float result = -1;
-
+            double result = -1;
+            double resultToAccount = 0;
             Console.WriteLine("Please typ in the ID of the account that you want to transfer funds to.");
 
             while (!int.TryParse(Console.ReadLine(), out idAddFunds))
@@ -90,7 +83,7 @@ namespace CyberCoyotesBank
             Console.WriteLine("How much do you want to transfer? Use only digits please.");
             while (result < 0)
             {
-                while (!float.TryParse(Console.ReadLine(), out result))
+                while (!double.TryParse(Console.ReadLine(), out result))
                 {
                     Console.WriteLine("Use only digits.");
                 }
@@ -120,14 +113,49 @@ namespace CyberCoyotesBank
                     if (_id == funds._id)
                     {
                         funds.Balance = funds.Balance - result;
+                        
                     }
                     else if (idAddFunds == funds._id)
                     {
-                        funds.Balance = funds.Balance + result;
+                        if (Currency == funds.Currency) 
+                        {
+                            funds.Balance = funds.Balance + result;
+                            resultToAccount = result;
+                        }
+                        else if (funds.Currency == "dollar" && Currency == "sek")
+                        {
+                            funds.Balance = funds.Balance + result / 0.095;
+                            resultToAccount = result / 0.095;
+                        }
+                        else if (funds.Currency == "euro" && Currency == "sek")
+                        {
+                            funds.Balance = funds.Balance + result * 0.087;
+                            resultToAccount = result / 0.087;
+                        }
+                        else if (funds.Currency == "sek" && Currency == "euro")
+                        {
+                            funds.Balance = funds.Balance + result * 11.43;
+                            resultToAccount = result * 11.43;
+                        }
+                        else if (funds.Currency == "dollar" && Currency == "euro")
+                        {
+                            funds.Balance = funds.Balance + result * 1.09;
+                            resultToAccount = result *1.09;
+                        }
+                        else if (funds.Currency == "sek" && Currency == "dollar")
+                        {
+                            funds.Balance = funds.Balance + result * 10.48;
+                            resultToAccount = result * 10.48;
+                        }
+                        else if (funds.Currency == "euro" && Currency == "dollar")
+                        {
+                            funds.Balance = funds.Balance + result * 0.92;
+                            resultToAccount = result * 0.92;
+                        }
                     }
                 }
                 Console.WriteLine("Transaction succesful.");
-                accountHistory.Add($"Transaction succesful! From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id} Funds: -{result} {Currency}. To Account owner: {LoginManager.GetActiveUser().UserName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{result} {idNameToCurrency}. {DateTime.Now}");
+                accountHistory.Add($"Transaction succesful! From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id} Funds: -{result} {Currency}. To Account owner: {LoginManager.GetActiveUser().UserName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{resultToAccount} {idNameToCurrency}. {DateTime.Now}");
             }
             else
             {
@@ -180,12 +208,40 @@ namespace CyberCoyotesBank
 
             if ((Balance - ReservedBalance) >= result)
             {
-                transactionList.Add(new TransactionInfo(this, idBalance, result));
+                double resultToUser = 0;
+                if (Currency == idBalance.Currency)
+                {
+                    resultToUser = result;
+                }
+                else if (idBalance.Currency == "dollar" && Currency == "sek")
+                {
+                    resultToUser = resultToUser + result / 0.095;
+                }
+                else if (idBalance.Currency == "euro" && Currency == "sek")
+                {
+                    resultToUser = resultToUser + result * 0.087;
+                }
+                else if (idBalance.Currency == "sek" && Currency == "euro")
+                {
+                    resultToUser = resultToUser + result * 11.43;
+                }
+                else if (idBalance.Currency == "dollar" && Currency == "euro")
+                {
+                    resultToUser = resultToUser + result * 1.09;
+                }
+                else if (idBalance.Currency == "sek" && Currency == "dollar")
+                {
+                    resultToUser = resultToUser + result * 10.48;
+                }
+                else if (idBalance.Currency == "euro" && Currency == "dollar")
+                {
+                    resultToUser = resultToUser + result * 0.92;
+                }
+                transactionList.Add(new TransactionInfo(this, idBalance, resultToUser));
                 Transaction trans = new Transaction("test", StartTimedTransactions);
                 Menu.transaction15Min.ScheduleTransaction(trans);
                 Console.WriteLine("Transaction queued.");
                 ReservedBalance += result;
-
             }
             else
             {
@@ -194,12 +250,23 @@ namespace CyberCoyotesBank
         }
     public void Loan(User user)
     {
-        // Adds all balance from every account the user have and then multiplie it with 5.
-        float maxBalance = 0;
+            // Adds all balance from every account the user have and then multiplie it with 5.
+            double maxBalance = 0;
         foreach (var item in AccountManager.GetAllAccountsUser(user))
         {
-            maxBalance = maxBalance + item.Balance;
-        }
+                if (item.Currency == "SEK")
+                {
+                    maxBalance = maxBalance + item.Balance;
+                }
+                else if (item.Currency == "USD")
+                {
+                    maxBalance = maxBalance + (item.Balance * 10.48);
+                }
+                else
+                {
+                    maxBalance = maxBalance + (item.Balance * 13.12);
+                }
+            }
         maxBalance = maxBalance * 5;
         Console.WriteLine($"You are allowed to take a loan for a maxvalue of {maxBalance} SEK. Please contact the bank for futher info.");
     }
@@ -219,7 +286,7 @@ namespace CyberCoyotesBank
         }
         transactionList.Clear();
     }
-    private void TimedTransfere(Account toAcc, float amountToMove)
+    private void TimedTransfere(Account toAcc, double amountToMove)
     {
         ReservedBalance -= amountToMove;
         toAcc.Balance = toAcc.Balance + amountToMove;

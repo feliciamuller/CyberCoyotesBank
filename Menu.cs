@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -125,20 +126,20 @@ namespace CyberCoyotesBank
             
             foreach (Account account in AccountManager.GetAllAccountsUser(user))
             {
+
                 //check conditions if there is interest on the account
                 if(account.Interest == 0)
                 {
                     Console.WriteLine("Type of account: Checking account");
-                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance}");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})");
                     Console.WriteLine();
                 }
                 else
                 {
                     Console.WriteLine("Type of account: Savings account");
-                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance}\nInterest: {account.Interest}%");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})\nInterest: {account.Interest}%");
                     Console.WriteLine();
                 }
-
             }
         }
         //print menu and call methods for creating bank account
