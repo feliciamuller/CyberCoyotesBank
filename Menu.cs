@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -12,19 +13,24 @@ namespace CyberCoyotesBank
 {
     static class Menu
     {
+        //creates instance of timer for delayed tranactions
+        public static Transaction15min transaction15Min = new Transaction15min();
+        //create object of exchange rate 
+        public static ExchangeRate exchangeRate = new ExchangeRate(0.0952f, 0.0875f);
+
         //check conditions for username and password and manage login
         static public void PrintLogin()
         {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
             int loginAttempts = 0;
             while (loginAttempts < 3)
             {
-
                 Console.WriteLine(@" __| |____________________| |__ 
 (__| |____________________| |__)
    | |  CyberCoyotesBank  | |   
  __| |____________________| |__ 
 (__|_|____________________|_|__)");
-
 
                 Console.WriteLine("Username:");
                 string usernameInput = Console.ReadLine();
@@ -54,12 +60,13 @@ namespace CyberCoyotesBank
                     Console.WriteLine("Press any key to exit app");
                     Console.ReadKey();
                     Environment.Exit(0);
-                }
+                } 
             }
         }
         //print user menu and call methods depending on key
         static public void PrintMainMenu()
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             while (true)
             {
                 Console.Clear();
@@ -118,9 +125,23 @@ namespace CyberCoyotesBank
         {
             //print out account list of logged in user
             User user = LoginManager.GetActiveUser();
-            foreach (Account account in AccountManager.GetAllAccoutsUser(user))
+            
+            foreach (Account account in AccountManager.GetAllAccountsUser(user))
             {
-                Console.WriteLine($"Account ID: {account.Id} Account name: {account.Name} Currency: {account.Currency} Balance: {account.Balance}");
+
+                //check conditions if there is interest on the account
+                if(account.Interest == 0)
+                {
+                    Console.WriteLine("Type of account: Checking account");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Type of account: Savings account");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})\nInterest: {account.Interest}%");
+                    Console.WriteLine();
+                }
             }
         }
         //print menu and call methods for creating bank account
@@ -136,7 +157,7 @@ namespace CyberCoyotesBank
                         MenuOptionCreateCheckingAccount();
                         break;
                     case 2:
-                        Console.WriteLine("Savings account not impemented yet");
+                        MenuOptionCreateSavingsAccount();
                         break;
                     default:
                         Console.WriteLine("Not valid choice, press 1 or 2");
@@ -148,10 +169,44 @@ namespace CyberCoyotesBank
         //receive input parameter from user and add it to create account method
         public static void MenuOptionCreateCheckingAccount()
         {
-            Console.WriteLine("Name of the account: ");
-            string name = Console.ReadLine();
-            Console.WriteLine("Currency: ");
-            string currency = Console.ReadLine();
+            string name;
+            string currency;
+            while(true)
+            {
+                Console.WriteLine("Name of the account: ");
+                name = Console.ReadLine();
+                if (name == "")
+                {
+                    Console.WriteLine("Name can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+                
+            }
+
+            while(true)
+            {
+                Console.WriteLine("What currency?");
+                Console.WriteLine("Type in SEK, Dollar or Euro");
+                currency = Console.ReadLine().ToLower();
+
+                switch (currency)
+                {
+                    case "sek":
+                        break;
+                    case "dollar":
+                        break;
+                    case "euro":
+                        break;
+                    default:
+                        Console.WriteLine("You can only type in SEK, Dollar or Euro");
+                        continue;
+                }
+                break;
+            }
+
             while (true)
             {
                 Console.WriteLine("Set balance: ");
@@ -168,22 +223,92 @@ namespace CyberCoyotesBank
             }
             
         }
+
+        //receive input parameter from user and add it to create savings account method
+        public static void MenuOptionCreateSavingsAccount()
+        {
+            string name;
+            string currency;
+            while (true)
+            {
+                Console.WriteLine("Name of the account: ");
+                name = Console.ReadLine();
+                if (name == "")
+                {
+                    Console.WriteLine("Name can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            while (true)
+            {
+                Console.WriteLine("What currency?");
+                Console.WriteLine("Type in SEK, Dollar or Euro");
+                currency = Console.ReadLine().ToLower();
+
+                switch (currency)
+                {
+                    case "sek":
+                        break;
+                    case "dollar":
+                        break;
+                    case "euro":
+                        break;
+                    default:
+                        Console.WriteLine("You can only type in SEK, Dollar or Euro");
+                        continue;
+                }
+                break;
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Set balance: ");
+                bool success = float.TryParse(Console.ReadLine(), out float balance);
+                if (success)
+                {
+                    //conditions to decide interest rate
+                    if (balance > 10000 )
+                    {
+                        float interest = 3;
+                        AccountManager.CreateSavingsAccount(name, currency, balance, interest);
+                        break;
+                    }
+                    else
+                    {
+                        float interest = 1.5f;
+                        AccountManager.CreateSavingsAccount(name, currency, balance, interest);
+                        break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Balance can only be in numbers, try again");
+                }
+            }
+        }
         //print menu and call different methods to transfer money
         public static void MenuOption3()
         {
             while(true)
             {
+                
                 Console.WriteLine("1: Transfer money between your accounts\n2: Transfer money to another customers account");
                 int.TryParse(Console.ReadLine(), out int input);
                 switch (input)
                 {
                     case 1:
-                        Account transferMoney = new Account();
-                        transferMoney.TransferMoney();
+                        Account acc = GetAccountToTransferFrom();
+
+                        acc.TransferMoney();
                         break;
                     case 2:
-                        Account transactionToUser = new Account();
-                        transactionToUser.TransactionToUser();
+                        acc = GetAccountToTransferFrom();
+                        acc.TransactionToUser();
                         break;
                     default:
                         Console.WriteLine("Not valid choice, try again");
@@ -192,26 +317,64 @@ namespace CyberCoyotesBank
                 break;
             }
         }
+
+        private static Account GetAccountToTransferFrom()
+        {
+            int accountToUse;
+            Console.WriteLine("Your accounts:");
+            foreach (var i in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
+            {
+                Console.WriteLine($"Account ID: {i._id} {i.Name}. \nBalance: {i.Balance} {i.Currency}");
+            }
+
+            Console.WriteLine("Please typ in the ID of the account that you want to transfer funds from.");
+            while (!int.TryParse(Console.ReadLine(), out accountToUse))
+            {
+                Console.WriteLine("Use only digits.");
+            }
+            while (true) 
+            {
+                foreach (var item in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
+                {
+                    if (accountToUse == item._id)
+                    {
+                        return AccountManager.GetAccount(accountToUse);
+                    }
+                }
+                Console.WriteLine("Please typ in an account you own.");
+
+                while (!int.TryParse(Console.ReadLine(), out accountToUse))
+                {
+                    Console.WriteLine("Use only digits.");
+                }
+            }
+            return AccountManager.GetAccount(accountToUse);
+        }
+
         //apply for loan
         public static void MenuOption4()
         {
             Account loan = new Account();
-            loan.Loan();
+            loan.Loan(LoginManager.GetActiveUser());
         }
         //view account history
         public static void MenuOption5()
         {
-            Account history = new Account();
-            history.AccountHistory();
+            foreach (Account account in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
+            {
+                account.AccountHistory();
+            }
+            
         }
-        //exit program
+        //print login menu
         public static void MenuOption6()
         {
-            Environment.Exit(6);
+            PrintLogin();
         }
         //print admin view and call methods depending on key
         public static void PrintMainMenuAdmin()
         {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             while (true)
             {
                 Console.Clear();
@@ -259,11 +422,36 @@ namespace CyberCoyotesBank
         public static void AdminMenuOption1()
         {
             bool isAdmin;
-            
-            Console.WriteLine("Type in username");
-            string username = Console.ReadLine();
-            Console.WriteLine("Type in password");
-            string password = Console.ReadLine();
+            string username;
+            string password;
+            while(true)
+            {
+                Console.WriteLine("Type in username");
+                username = Console.ReadLine();
+                if (username == "")
+                {
+                    Console.WriteLine("Username can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            while(true)
+            {
+                Console.WriteLine("Type in password");
+                password = Console.ReadLine();
+                if (password == "")
+                {
+                    Console.WriteLine("Password can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
             while(true)
             {
                 Console.WriteLine("Admin or User?");
@@ -290,7 +478,8 @@ namespace CyberCoyotesBank
         //update exchange rate
         public static void AdminMenuOption2()
         {
-            Console.WriteLine("Hantera växelkurs");
+            exchangeRate.UpdateExchangeRate();
+
         }
         //print out users or admins through methods
         public static void AdminMenuOption3()
@@ -326,10 +515,10 @@ namespace CyberCoyotesBank
                 break;
             }
         }
-        //exit program
+        //Print login menu
         public static void AdminMenuOption4()
         {
-            Environment.Exit(4);
+            PrintLogin();
         }
     }
 }
