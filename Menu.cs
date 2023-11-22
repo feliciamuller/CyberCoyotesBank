@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -154,22 +155,45 @@ namespace CyberCoyotesBank
         {
             Console.WriteLine("Name of the account: ");
             string name = Console.ReadLine();
-            Console.WriteLine("Currency: ");
-            string currency = Console.ReadLine();
+            Console.WriteLine("What currency do you want? SEK, USD or GBP.");
+            string currency = Console.ReadLine().ToLower();
             while (true)
             {
-                Console.WriteLine("Set balance: ");
-                bool success = float.TryParse(Console.ReadLine(), out float balance);
-                if (success)
+                if (currency == "sek")
                 {
-                    AccountManager.CreateAccount(name, currency, balance);
+                    currency = "SEK";
+                    break;
+                }
+                else if (currency == "usd")
+                {
+                    currency = "USD";
+                    break;
+                }
+                else if (currency == "gbp")
+                {
+                    currency = "GBP";
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Balance can only be in numbers, try again");
-                } 
+                    Console.WriteLine("Please choose one of three currency we've listed.");
+                    currency = Console.ReadLine().ToLower();
+                }
             }
+                while (true)
+                {
+                    Console.WriteLine("Set balance: ");
+                    bool success = float.TryParse(Console.ReadLine(), out float balance);
+                    if (success)
+                    {
+                        AccountManager.CreateAccount(name, currency, balance);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Balance can only be in numbers, try again");
+                    }
+                }
             
         }
         //print menu and call different methods to transfer money
