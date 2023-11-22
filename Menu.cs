@@ -124,7 +124,7 @@ namespace CyberCoyotesBank
             User user = LoginManager.GetActiveUser();
             foreach (Account account in AccountManager.GetAllAccountsUser(user))
             {
-                Console.WriteLine($"Account ID: {account._id} Account name: {account.Name} Currency: {account.Currency} Balance: {account.Balance}");
+                Console.WriteLine($"Account ID: {account._id} Account Name: {account.Name} Currency: {account.Currency} Balance: {account.Balance} ({account.ReservedBalance})");
             }
         }
         //print menu and call methods for creating bank account
@@ -202,7 +202,6 @@ namespace CyberCoyotesBank
         private static Account GetAccountToTransferFrom()
         {
             int accountToUse;
-            var userInput = AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser());
             Console.WriteLine("Your accounts:");
             foreach (var i in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
             {
@@ -214,8 +213,23 @@ namespace CyberCoyotesBank
             {
                 Console.WriteLine("Use only digits.");
             }
+            while (true) 
+            {
+                foreach (var item in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
+                {
+                    if (accountToUse == item._id)
+                    {
+                        return AccountManager.GetAccount(accountToUse);
+                    }
+                }
+                Console.WriteLine("Please typ in an account you own.");
 
-           return AccountManager.GetAccount(accountToUse);
+                while (!int.TryParse(Console.ReadLine(), out accountToUse))
+                {
+                    Console.WriteLine("Use only digits.");
+                }
+            }
+            return AccountManager.GetAccount(accountToUse);
         }
 
         //apply for loan
