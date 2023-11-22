@@ -62,39 +62,39 @@ namespace CyberCoyotesBank
             int idAddFunds;
             double result = -1;
             double resultToAccount = 0;
-            Console.WriteLine("Please typ in the ID of the account that you want to transfer funds to.");
+            Console.WriteLine("Please enter the ID of the account that you want to transfer funds to.");
 
             while (!int.TryParse(Console.ReadLine(), out idAddFunds))
             {
-                Console.WriteLine("Use only digits.");
+                Console.WriteLine("Enter only digits.");
             }
 
-            //  checks so the user can't transfer to the same account.
+            // Checks so the user can't transfer to the same account
             while (idAddFunds == _id)
             {
                 Console.WriteLine("You can't transfer money to the same account");
                 while (!int.TryParse(Console.ReadLine(), out idAddFunds))
                 {
-                    Console.WriteLine("Use only digits.");
+                    Console.WriteLine("Enter only digits.");
                 }
             }
 
-            // Checks so the user have put in a valid number.
-            Console.WriteLine("How much do you want to transfer? Use only digits please.");
+            // Checks so the user have put in a valid number
+            Console.WriteLine("How much do you want to transfer? Enter only digits please.");
             while (result < 0)
             {
                 while (!double.TryParse(Console.ReadLine(), out result))
                 {
-                    Console.WriteLine("Use only digits.");
+                    Console.WriteLine("Please, enter only digits.");
                 }
                 if (result < 0)
                 {
-                    Console.WriteLine("Please typ in a positiv value.");
+                    Console.WriteLine("Please enter a positiv value.");
                 }
             }
 
             Console.Clear();
-            // A loop just to get info and save it into variables.
+            // A loop just to get info and save it into variables
             foreach (var holder in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
             {
                 if (holder._id == idAddFunds)
@@ -105,7 +105,7 @@ namespace CyberCoyotesBank
                 }
             }
 
-            // Adds and removes balance from each account balance that the user have put in.
+            // Adds and removes balance from each account balance that the user have put in
             if (idAddFundsHolder == idAddFunds && (Balance - ReservedBalance) >= result)
             {
                 foreach (var funds in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
@@ -154,12 +154,12 @@ namespace CyberCoyotesBank
                         }
                     }
                 }
-                Console.WriteLine("Transaction succesful.");
-                accountHistory.Add($"Transaction succesful! From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id} Funds: -{result} {Currency}. To Account owner: {LoginManager.GetActiveUser().UserName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{resultToAccount} {idNameToCurrency}. {DateTime.Now}");
+                Console.WriteLine("The transaction was successful.");
+                accountHistory.Add($"The transaction was successful! From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id} Funds: -{result} {Currency}. To Account owner: {LoginManager.GetActiveUser().UserName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{resultToAccount} {idNameToCurrency}. {DateTime.Now}");
             }
             else
             {
-                Console.WriteLine("Could not make your request. Please check if you got valid funds and/or that you typed in the right ID.");
+                Console.WriteLine("We could not make your request. Please check if you got valid funds and/or that you typed in the right ID.");
             }
         }
         public void TransactionToUser()
@@ -167,41 +167,41 @@ namespace CyberCoyotesBank
             int inputUserId;
             float result = -1;
 
-            Console.WriteLine("Please typ in the ID of the account you would like transfer to.");
+            Console.WriteLine("Please enter the ID of the account you would like transfer to.");
             while (!int.TryParse(Console.ReadLine(), out inputUserId))
             {
-                Console.WriteLine("Use only digits.");
+                Console.WriteLine("Please, enter only digits.");
 
             }
-            //  checks so the user can't transfer to the same account.
+            // Checks so the user can't transfer to the same account
             while (inputUserId == _id)
             {
                 Console.WriteLine("You can't transfer to the same account.");
                 while (!int.TryParse(Console.ReadLine(), out inputUserId))
                 {
-                    Console.WriteLine("Use only digits.");
+                    Console.WriteLine("Please, enter only digits.");
                 }
             }
 
-            //Checks if the accounts exist
+            // Checks if the accounts exist
             var idBalance = AccountManager.GetAccount(inputUserId);
             if (idBalance == null)
             {
-                Console.WriteLine("That account don't exist.");
+                Console.WriteLine("The account you entered doesn´t exist.");
                 return;
             }
 
-            // checks so the input is a number and got a positiv value.
+            // Checks so the input is a number and got a positiv value
             Console.WriteLine("How much would you like to transfer?");
             while (result < 0)
             {
                 while (!float.TryParse(Console.ReadLine(), out result))
                 {
-                    Console.WriteLine("Use only digits.");
+                    Console.WriteLine("Please, enter only digits.");
                 }
                 if (result < 0)
                 {
-                    Console.WriteLine("Please typ in a positiv value.");
+                    Console.WriteLine("Please enter a positiv value.");
                 }
             }
             Console.Clear();
@@ -240,17 +240,17 @@ namespace CyberCoyotesBank
                 transactionList.Add(new TransactionInfo(this, idBalance, resultToUser));
                 Transaction trans = new Transaction("test", StartTimedTransactions);
                 Menu.transaction15Min.ScheduleTransaction(trans);
-                Console.WriteLine("Transaction queued.");
+                Console.WriteLine("The transaction is queued.");
                 ReservedBalance += result;
             }
             else
             {
-                Console.WriteLine("Not enough funds.");
+                Console.WriteLine("You don´t have enough funds.");
             }
         }
     public void Loan(User user)
     {
-            // Adds all balance from every account the user have and then multiplie it with 5.
+            // Adds all balance from every account the user have and then multiplie it with 5
             double maxBalance = 0;
         foreach (var item in AccountManager.GetAllAccountsUser(user))
         {
@@ -272,7 +272,7 @@ namespace CyberCoyotesBank
     }
     public void AccountHistory()
     {
-        // Finds a specifik user in the string list and writes out the item.
+        // Finds a specifik user in the string list and writes out the item
         foreach (var item in accountHistory)
         {
             Console.WriteLine(item);
@@ -291,9 +291,9 @@ namespace CyberCoyotesBank
         ReservedBalance -= amountToMove;
         toAcc.Balance = toAcc.Balance + amountToMove;
         Balance = Balance - amountToMove;
-        Console.WriteLine("Transaction succesful.");
-        accountHistory.Add($"Transaction succesful to other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
-         toAcc.accountHistory.Add($"Transaction succesful from other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
+        Console.WriteLine("The transaction was successful.");
+        accountHistory.Add($"The transaction was successful to the other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
+         toAcc.accountHistory.Add($"The transaction was successful from the other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
         }
     }
 }
