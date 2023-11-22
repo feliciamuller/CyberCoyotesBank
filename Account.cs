@@ -54,7 +54,6 @@ namespace CyberCoyotesBank
             Balance = balance;
             Interest = interest;
         }
-
         public void TransferMoney()
         {
             int idAddFundsHolder = 0;
@@ -123,35 +122,35 @@ namespace CyberCoyotesBank
                             funds.Balance = funds.Balance + result;
                             resultToAccount = result;
                         }
-                        else if (funds.Currency == "USD" && Currency == "SEK")
+                        else if (funds.Currency == "dollar" && Currency == "sek")
                         {
                             funds.Balance = funds.Balance + result / 0.095;
                             resultToAccount = result / 0.095;
                         }
-                        else if (funds.Currency == "GBP" && Currency == "SEK")
+                        else if (funds.Currency == "euro" && Currency == "sek")
                         {
-                            funds.Balance = funds.Balance + result * 0.076;
-                            resultToAccount = result / 0.076;
+                            funds.Balance = funds.Balance + result * 0.087;
+                            resultToAccount = result / 0.087;
                         }
-                        else if (funds.Currency == "SEK" && Currency == "GBP")
+                        else if (funds.Currency == "sek" && Currency == "euro")
                         {
-                            funds.Balance = funds.Balance + result * 13.12;
-                            resultToAccount = result * 13.12;
+                            funds.Balance = funds.Balance + result * 11.43;
+                            resultToAccount = result * 11.43;
                         }
-                        else if (funds.Currency == "USD" && Currency == "GBP")
+                        else if (funds.Currency == "dollar" && Currency == "euro")
                         {
-                            funds.Balance = funds.Balance + result * 1.25;
-                            resultToAccount = result *1.25;
+                            funds.Balance = funds.Balance + result * 1.09;
+                            resultToAccount = result *1.09;
                         }
-                        else if (funds.Currency == "SEK" && Currency == "USD")
+                        else if (funds.Currency == "sek" && Currency == "dollar")
                         {
                             funds.Balance = funds.Balance + result * 10.48;
                             resultToAccount = result * 10.48;
                         }
-                        else if (funds.Currency == "GBP" && Currency == "USD")
+                        else if (funds.Currency == "euro" && Currency == "dollar")
                         {
-                            funds.Balance = funds.Balance + result * 0.8;
-                            resultToAccount = result * 0.8;
+                            funds.Balance = funds.Balance + result * 0.92;
+                            resultToAccount = result * 0.92;
                         }
                     }
                 }
