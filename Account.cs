@@ -53,7 +53,6 @@ namespace CyberCoyotesBank
             Balance = balance;
             Interest = interest;
         }
-
         public void TransferMoney()
         {
             int idAddFundsHolder = 0;
