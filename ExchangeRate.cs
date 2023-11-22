@@ -30,7 +30,7 @@ namespace CyberCoyotesBank
             while(true)
             {
                 //set value to dollar
-                Console.WriteLine($"Type in the exchange rate in SEK for 1 dollar: ");
+                Console.WriteLine($"Type in the exchange rate in dollar for 1 SEK: ");
                 bool success = float.TryParse(Console.ReadLine(), out dollar);
                 if (!success)
                 {
@@ -45,7 +45,7 @@ namespace CyberCoyotesBank
             while (true)
             {
                 //set value to euro
-                Console.WriteLine($"Type in the exchange rate in SEK for 1 euro: ");
+                Console.WriteLine($"Type in the exchange in euro for 1 SEK: ");
                 bool success = float.TryParse(Console.ReadLine(), out euro);
                 if (!success)
                 {
@@ -58,7 +58,7 @@ namespace CyberCoyotesBank
             //changes the current value to new value
             Euro = euro;
 
-            Console.WriteLine($"The current exchange rate is:\n1 dollar = {Dollar} SEK\n1 Euro = {Euro} SEK");
+            Console.WriteLine($"The current exchange rate is:\n1 SEK = {Dollar} Dollar\n1 SEK = {Euro} euro");
         }
         
  

@@ -16,7 +16,7 @@ namespace CyberCoyotesBank
         //creates instance of timer for delayed tranactions
         public static Transaction15min transaction15Min = new Transaction15min();
         //create object of exchange rate 
-        public static ExchangeRate exchangeRate = new ExchangeRate(10.45f, 11.40f);
+        public static ExchangeRate exchangeRate = new ExchangeRate(0.0952f, 0.0875f);
 
         //check conditions for username and password and manage login
         static public void PrintLogin()
