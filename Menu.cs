@@ -15,6 +15,8 @@ namespace CyberCoyotesBank
     {
         //creates instance of timer for delayed tranactions
         public static Transaction15min transaction15Min = new Transaction15min();
+        //create object of exchange rate 
+        public static ExchangeRate exchangeRate = new ExchangeRate(10.45f, 11.40f);
 
         //check conditions for username and password and manage login
         static public void PrintLogin()
@@ -476,7 +478,8 @@ namespace CyberCoyotesBank
         //update exchange rate
         public static void AdminMenuOption2()
         {
-            Console.WriteLine("Hantera växelkurs");
+            exchangeRate.UpdateExchangeRate();
+
         }
         //print out users or admins through methods
         public static void AdminMenuOption3()
