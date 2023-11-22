@@ -168,7 +168,6 @@ namespace CyberCoyotesBank
                 Menu.transaction15Min.ScheduleTransaction(trans);
                 Console.WriteLine("Transaction queued.");
                 ReservedBalance += result;
-
             }
             else
             {
