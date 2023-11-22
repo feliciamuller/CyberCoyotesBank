@@ -123,9 +123,23 @@ namespace CyberCoyotesBank
         {
             //print out account list of logged in user
             User user = LoginManager.GetActiveUser();
+            
             foreach (Account account in AccountManager.GetAllAccountsUser(user))
             {
-                Console.WriteLine($"Account ID: {account._id} Account Name: {account.Name} Currency: {account.Currency} Balance: {account.Balance} ({account.ReservedBalance})");
+
+                //check conditions if there is interest on the account
+                if(account.Interest == 0)
+                {
+                    Console.WriteLine("Type of account: Checking account");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Type of account: Savings account");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})\nInterest: {account.Interest}%");
+                    Console.WriteLine();
+                }
             }
         }
         //print menu and call methods for creating bank account
@@ -141,7 +155,7 @@ namespace CyberCoyotesBank
                         MenuOptionCreateCheckingAccount();
                         break;
                     case 2:
-                        Console.WriteLine("Savings account not impemented yet");
+                        MenuOptionCreateSavingsAccount();
                         break;
                     default:
                         Console.WriteLine("Not valid choice, press 1 or 2");
@@ -153,48 +167,127 @@ namespace CyberCoyotesBank
         //receive input parameter from user and add it to create account method
         public static void MenuOptionCreateCheckingAccount()
         {
-            Console.WriteLine("Name of the account: ");
-            string name = Console.ReadLine();
-            Console.WriteLine("What currency do you want? SEK, USD or GBP.");
-            string currency = Console.ReadLine().ToLower();
+            string name;
+            string currency;
+            while(true)
+            {
+                Console.WriteLine("Name of the account: ");
+                name = Console.ReadLine();
+                if (name == "")
+                {
+                    Console.WriteLine("Name can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+                
+            }
+
+            while(true)
+            {
+                Console.WriteLine("What currency?");
+                Console.WriteLine("Type in SEK, Dollar or Euro");
+                currency = Console.ReadLine().ToLower();
+
+                switch (currency)
+                {
+                    case "sek":
+                        break;
+                    case "dollar":
+                        break;
+                    case "euro":
+                        break;
+                    default:
+                        Console.WriteLine("You can only type in SEK, Dollar or Euro");
+                        continue;
+                }
+                break;
+            }
+
             while (true)
             {
-                if (currency == "sek")
+                Console.WriteLine("Set balance: ");
+                bool success = float.TryParse(Console.ReadLine(), out float balance);
+                if (success)
                 {
-                    currency = "SEK";
-                    break;
-                }
-                else if (currency == "usd")
-                {
-                    currency = "USD";
-                    break;
-                }
-                else if (currency == "gbp")
-                {
-                    currency = "GBP";
+                    AccountManager.CreateAccount(name, currency, balance);
                     break;
                 }
                 else
                 {
-                    Console.WriteLine("Please choose one of three currency we've listed.");
-                    currency = Console.ReadLine().ToLower();
-                }
+                    Console.WriteLine("Balance can only be in numbers, try again");
+                } 
             }
-                while (true)
+            
+        }
+
+        //receive input parameter from user and add it to create savings account method
+        public static void MenuOptionCreateSavingsAccount()
+        {
+            string name;
+            string currency;
+            while (true)
+            {
+                Console.WriteLine("Name of the account: ");
+                name = Console.ReadLine();
+                if (name == "")
                 {
-                    Console.WriteLine("Set balance: ");
-                    bool success = float.TryParse(Console.ReadLine(), out float balance);
-                    if (success)
+                    Console.WriteLine("Name can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            while (true)
+            {
+                Console.WriteLine("What currency?");
+                Console.WriteLine("Type in SEK, Dollar or Euro");
+                currency = Console.ReadLine().ToLower();
+
+                switch (currency)
+                {
+                    case "sek":
+                        break;
+                    case "dollar":
+                        break;
+                    case "euro":
+                        break;
+                    default:
+                        Console.WriteLine("You can only type in SEK, Dollar or Euro");
+                        continue;
+                }
+                break;
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Set balance: ");
+                bool success = float.TryParse(Console.ReadLine(), out float balance);
+                if (success)
+                {
+                    //conditions to decide interest rate
+                    if (balance > 10000 )
                     {
-                        AccountManager.CreateAccount(name, currency, balance);
+                        float interest = 3;
+                        AccountManager.CreateSavingsAccount(name, currency, balance, interest);
                         break;
                     }
                     else
                     {
-                        Console.WriteLine("Balance can only be in numbers, try again");
+                        float interest = 1.5f;
+                        AccountManager.CreateSavingsAccount(name, currency, balance, interest);
+                        break;
                     }
                 }
-            
+                else
+                {
+                    Console.WriteLine("Balance can only be in numbers, try again");
+                }
+            }
         }
         //print menu and call different methods to transfer money
         public static void MenuOption3()
@@ -327,11 +420,36 @@ namespace CyberCoyotesBank
         public static void AdminMenuOption1()
         {
             bool isAdmin;
-            
-            Console.WriteLine("Type in username");
-            string username = Console.ReadLine();
-            Console.WriteLine("Type in password");
-            string password = Console.ReadLine();
+            string username;
+            string password;
+            while(true)
+            {
+                Console.WriteLine("Type in username");
+                username = Console.ReadLine();
+                if (username == "")
+                {
+                    Console.WriteLine("Username can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            while(true)
+            {
+                Console.WriteLine("Type in password");
+                password = Console.ReadLine();
+                if (password == "")
+                {
+                    Console.WriteLine("Password can not be empty");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
             while(true)
             {
                 Console.WriteLine("Admin or User?");
