@@ -17,7 +17,7 @@ namespace CyberCoyotesBank
         public Transaction15min()
         {
             pendingTransactions = new List<Transaction>();
-           //timer = new System.Timers.Timer(15 * 60 * 1000); // 15 minutes to the millisecund
+            timer = new System.Timers.Timer(15 * 60 * 1000); // 15 minutes to the millisecund
             timer.Elapsed += OnTimerElapsed;
             timer.Start();
         }
