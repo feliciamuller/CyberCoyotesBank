@@ -305,7 +305,6 @@ namespace CyberCoyotesBank
                 if (!UserHasAccounts())
                 {
                     Console.WriteLine("You don't have any bank accounts. Please create an account first.");
-                    Console.WriteLine("Press any key to go back to the menu.");
                     Console.ReadKey();
                     break;
                 }
