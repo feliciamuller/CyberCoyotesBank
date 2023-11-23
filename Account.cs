@@ -262,15 +262,15 @@ namespace CyberCoyotesBank
                 }
                 else if (item.Currency == "USD")
                 {
-                    maxBalance = maxBalance + (item.Balance * 10.48);
+                    maxBalance = maxBalance + (item.Balance / Menu.exchangeRate.Dollar);
                 }
                 else
                 {
-                    maxBalance = maxBalance + (item.Balance * 13.12);
+                    maxBalance = maxBalance + (item.Balance / Menu.exchangeRate.Euro);
                 }
             }
         maxBalance = maxBalance * 5;
-        Console.WriteLine($"You are allowed to take a loan for a maxvalue of {maxBalance} SEK. Please contact the bank for futher info.");
+        Console.WriteLine($"You are allowed to take a loan for a maxvalue of {Math.Round(maxBalance)} SEK. Please contact the bank for futher info.");
     }
     public void AccountHistory()
     {
