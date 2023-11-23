@@ -19,12 +19,5 @@ namespace CyberCoyotesBank
             Password = password;
             ID = id; 
         }
-       
-        // Här ska man kunna låna pengar och se hur mycket ränta det blir på lånet
-        // Lånet ska bli ett avtryck i historiken i loggen
-        public void Loan()
-        {
-            Console.WriteLine("The application for a loan has been granted for the user: " + UserName);
-        }
     }
 }
