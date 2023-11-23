@@ -17,6 +17,12 @@ namespace CyberCoyotesBank
         public static Transaction15min transaction15Min = new Transaction15min();
         // Create object of exchange rate 
         public static ExchangeRate exchangeRate = new ExchangeRate(0.0952f, 0.0875f);
+        // Check if the user has any bank accounts
+        private static bool UserHasAccounts()
+        {
+            User activeUser = LoginManager.GetActiveUser();
+            return AccountManager.GetAllAccountsUser(activeUser).Any();
+        }
 
         // Check conditions for username and password and manage login
         static public void PrintLogin()
@@ -86,32 +92,32 @@ namespace CyberCoyotesBank
                 {
                     case 1:
                         MenuOption1();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 2:
                         MenuOption2();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 3:
                         MenuOption3();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 4:
                         MenuOption4();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 5:
                         MenuOption5();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 6:
                         MenuOption6();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     default:
@@ -271,7 +277,7 @@ namespace CyberCoyotesBank
                 bool success = float.TryParse(Console.ReadLine(), out float balance);
                 if (success)
                 {
-                    //conditions to decide interest rate
+                    // Conditions to decide interest rate
                     if (balance > 10000 )
                     {
                         float interest = 3;
@@ -291,12 +297,19 @@ namespace CyberCoyotesBank
                 }
             }
         }
-        //print menu and call different methods to transfer money
+        // Print menu and call different methods to transfer money
         public static void MenuOption3()
         {
             while(true)
             {
-                
+                if (!UserHasAccounts())
+                {
+                    Console.WriteLine("You don't have any bank accounts. Please create an account first.");
+                    Console.WriteLine("Press any key to go back to the menu.");
+                    Console.ReadKey();
+                    break;
+                }
+
                 Console.WriteLine("1: Transfer money between your accounts\n2: Transfer money to another customers account");
                 int.TryParse(Console.ReadLine(), out int input);
                 switch (input)
@@ -392,26 +405,26 @@ namespace CyberCoyotesBank
                 {
                     case 1:
                         AdminMenuOption1();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 2:
                         AdminMenuOption2();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 3:
                         AdminMenuOption3();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     case 4:
                         AdminMenuOption4();
-                        Console.WriteLine("Press any key to go back to menu");
+                        Console.WriteLine("Press any key to go back to the menu");
                         Console.ReadKey();
                         break;
                     default:
-                        Console.WriteLine("Wrong choice, press any key to go back to menu and try again");
+                        Console.WriteLine("Wrong choice, press any key to go back to the menu and try again");
                         Console.ReadKey();
                         break;
                 }
