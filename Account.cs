@@ -154,7 +154,7 @@ namespace CyberCoyotesBank
                     }
                 }
                 Console.WriteLine("The transaction was successful.");
-                accountHistory.Add($"The transaction was successful! From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id} Funds: -{result} {Currency}. To Account owner: {LoginManager.GetActiveUser().UserName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{resultToAccount} {idNameToCurrency}. {DateTime.Now}");
+                accountHistory.Add($"The transaction was successful! From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id} Funds: -{Math.Round(result, 2)} {Currency}. \nTo Account owner: {LoginManager.GetActiveUser().UserName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{Math.Round(resultToAccount, 2)} {idNameToCurrency}. {DateTime.Now} \n");
             }
             else
             {
