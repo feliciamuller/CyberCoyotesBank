@@ -14,7 +14,7 @@ namespace CyberCoyotesBank
         // List of Accounts
         static private List<Account> accounts = new List<Account>() { new Account(99, "testAccount", "sek", 25000, UserManager.GetUser(102)), new Account(100, "testAccount2", "sek", 25000, UserManager.GetUser(102)), new Account(101, "testAccount2", "dollar", 25000, UserManager.GetUser(102)), new Account(102, "user2Account", "sek", 25000, UserManager.GetUser(103)) };
         // Last Id used to create an account
-        static private int lastId = 100;
+        static private int lastId = 102;
 
         // Runs account constructor and adds a new account to list
         static public void CreateAccount(string name, string currency, float balance)
