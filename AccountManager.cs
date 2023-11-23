@@ -24,7 +24,7 @@ namespace CyberCoyotesBank
             accounts.Add(new Account(lastId, name, currency, balance,LoginManager.GetActiveUser()));
             Console.WriteLine("Checking account is created!");
         }
-
+        // Runs account constructor and adds a new account to list with interest.
         static public void CreateSavingsAccount(string name, string currency, float balance, float interest)
         {
             lastId++;
@@ -37,7 +37,7 @@ namespace CyberCoyotesBank
         {
             return accounts.Find(x => x._id == id);
         }
-
+        // Finds all accounts that the user have.
         static public List<Account> GetAllAccountsUser(User user)
         {
             return accounts.FindAll(x => x.Owner == user);

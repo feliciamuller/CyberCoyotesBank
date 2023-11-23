@@ -16,7 +16,7 @@ namespace CyberCoyotesBank
         public double Balance { get; set; }
         public string Currency { get; set; }
         public float Interest { get; set; }
-
+        public double _balanceToHistory;
         public double ReservedBalance;
 
         public List<Account> accountLists = new List<Account>();
@@ -53,7 +53,7 @@ namespace CyberCoyotesBank
             Balance = balance;
             Interest = interest;
         }
-        public void TransferMoney()
+        public void TransferMoney() // transfers money that you have. you can't use this metod to transfer to other users.
         {
             int idAddFundsHolder = 0;
             string idNameTo = "";
@@ -114,6 +114,7 @@ namespace CyberCoyotesBank
                         funds.Balance = funds.Balance - result;
                         
                     }
+                    // checks to se what currency it is and do the math to add the correct value
                     else if (idAddFunds == funds._id)
                     {
                         if (Currency == funds.Currency) 
@@ -153,6 +154,7 @@ namespace CyberCoyotesBank
                         }
                     }
                 }
+                // adds some info of the transaction into a string list.
                 Console.WriteLine("The transaction was successful.");
                 accountHistory.Add($"The transaction was successful! From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id} Funds: -{Math.Round(result, 2)} {Currency}. \nTo Account owner: {LoginManager.GetActiveUser().UserName}. Name: {idNameTo}. ID: {idAddFundsHolder} Funds: +{Math.Round(resultToAccount, 2)} {idNameToCurrency}. {DateTime.Now} \n");
             }
@@ -204,7 +206,7 @@ namespace CyberCoyotesBank
                 }
             }
             Console.Clear();
-
+            // checks to se what currency it is and do the math to add the correct value
             if ((Balance - ReservedBalance) >= result)
             {
                 double resultToUser = 0;
@@ -236,11 +238,12 @@ namespace CyberCoyotesBank
                 {
                     resultToUser = resultToUser + (result / Menu.exchangeRate.Dollar) * Menu.exchangeRate.Euro;
                 }
-                transactionList.Add(new TransactionInfo(this, idBalance, resultToUser));
+                transactionList.Add(new TransactionInfo(this, idBalance, result));
                 Transaction trans = new Transaction("test", StartTimedTransactions);
                 Menu.transaction15Min.ScheduleTransaction(trans);
                 Console.WriteLine("The transaction is queued.");
                 ReservedBalance += result;
+                _balanceToHistory = resultToUser;
             }
             else
             {
@@ -277,7 +280,8 @@ namespace CyberCoyotesBank
             Console.WriteLine(item);
         }
     }
-    public void StartTimedTransactions()
+        
+    public void StartTimedTransactions() // method to start the timer of transactions that are in queue.
     {
         foreach (var transaction in transactionList)
         {
@@ -285,14 +289,15 @@ namespace CyberCoyotesBank
         }
         transactionList.Clear();
     }
-    private void TimedTransfere(Account toAcc, double amountToMove)
+
+    private void TimedTransfere(Account toAcc, double amountToMove) // method to add transaction to other users so it will take 15 min.
     {
         ReservedBalance -= amountToMove;
-        toAcc.Balance = toAcc.Balance + amountToMove;
+        toAcc.Balance = toAcc.Balance + Math.Round(_balanceToHistory, 2);
         Balance = Balance - amountToMove;
         Console.WriteLine("The transaction was successful.");
-        accountHistory.Add($"The transaction was successful to the other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
-         toAcc.accountHistory.Add($"The transaction was successful from the other account!  From Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. To Account ID: {toAcc._id} Funds: +{amountToMove} {toAcc.Currency}. {DateTime.Now}");
+        accountHistory.Add($"The transaction was successful to the other account! \nFrom Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. \nTo Account ID: {toAcc._id} Funds: +{Math.Round(_balanceToHistory, 2)} {toAcc.Currency}. {DateTime.Now}\n");
+         toAcc.accountHistory.Add($"The transaction was successful from the other account! \nFrom Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. \nTo Account ID: {toAcc._id} Funds: +{Math.Round(_balanceToHistory, 2)} {toAcc.Currency}. {DateTime.Now}\n");
         }
     }
 }
