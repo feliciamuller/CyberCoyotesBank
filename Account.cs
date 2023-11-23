@@ -297,7 +297,7 @@ namespace CyberCoyotesBank
         Balance = Balance - amountToMove;
         Console.WriteLine("The transaction was successful.");
         accountHistory.Add($"The transaction was successful to the other account! \nFrom Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. \nTo Account ID: {toAcc._id} Funds: +{Math.Round(_balanceToHistory, 2)} {toAcc.Currency}. {DateTime.Now}\n");
-         toAcc.accountHistory.Add($"The transaction was successful from the other account! \nFrom Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. Funds: -{amountToMove} {Currency}. \nTo Account ID: {toAcc._id} Funds: +{Math.Round(_balanceToHistory, 2)} {toAcc.Currency}. {DateTime.Now}\n");
+         toAcc.accountHistory.Add($"The transaction was successful from the other account! \nFrom Account owner: {LoginManager.GetActiveUser().UserName}. Name: {Name}. ID: {_id}. \nTo Account ID: {toAcc._id} Funds: +{Math.Round(_balanceToHistory, 2)} {toAcc.Currency}. {DateTime.Now}\n");
         }
     }
 }
