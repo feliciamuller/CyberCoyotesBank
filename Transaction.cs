@@ -24,19 +24,3 @@ namespace CyberCoyotesBank
         }
     }
 }
-
-// Lägg till detta någonstans (typ i Menu-klassen eller?): 
-// Transaction15min transaction15min = new Transaction15min();
-
-// Exempel på hur jag TROR man kan schemalägga så transaktioner sker var 15:e minut:
-// Transaction transferTransaction = new Transaction("Överföring", () =>
-// { 
-// Implementera transaktionslogik här
-// Console WriteLine("Utför överföring...");
-// });
-//  transactionScheduler.ScheduleTransaction(transferTransaction);
-
-// Här kan du schemalägga fler transaktioner vid behov
-
-// Console.ReadLine(); // Håller programmet igång så att du kan se utskrifterna
-

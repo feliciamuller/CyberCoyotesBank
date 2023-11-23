@@ -318,7 +318,7 @@ namespace CyberCoyotesBank
             }
         }
 
-        private static Account GetAccountToTransferFrom()
+        private static Account GetAccountToTransferFrom() // writes all your accounts and checks so you pick a valid account that's your own.
         {
             int accountToUse;
             Console.WriteLine("This is your accounts:");
