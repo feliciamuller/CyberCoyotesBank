@@ -22,8 +22,7 @@ namespace CyberCoyotesBank
         public List<Account> accountLists = new List<Account>();
         public List<string> accountHistory = new List<string>();
         public List<TransactionInfo> transactionList = new List<TransactionInfo>();
-
-        public List<object> userList { get; set; }
+        public ExchangeRate exchangeRate { get; set; }
 
         public Account()
         {
@@ -45,7 +44,7 @@ namespace CyberCoyotesBank
             Currency = currency;
             Balance = balance;
         }
-        public Account(int id, string name, string currency, double balance, float interest, User user)
+        public Account(int id, string name, string currency, float balance, float interest, User user)
         {
             Owner = user;
             Name = name;
@@ -124,33 +123,33 @@ namespace CyberCoyotesBank
                         }
                         else if (funds.Currency == "dollar" && Currency == "sek")
                         {
-                            funds.Balance = funds.Balance + result / 0.095;
-                            resultToAccount = result / 0.095;
+                            funds.Balance = funds.Balance + result * Menu.exchangeRate.Dollar;
+                            resultToAccount = result * Menu.exchangeRate.Dollar;
                         }
                         else if (funds.Currency == "euro" && Currency == "sek")
                         {
-                            funds.Balance = funds.Balance + result * 0.087;
-                            resultToAccount = result / 0.087;
+                            funds.Balance = funds.Balance + result * Menu.exchangeRate.Euro;
+                            resultToAccount = result * Menu.exchangeRate.Euro;
                         }
                         else if (funds.Currency == "sek" && Currency == "euro")
                         {
-                            funds.Balance = funds.Balance + result * 11.43;
-                            resultToAccount = result * 11.43;
+                            funds.Balance = funds.Balance + result / Menu.exchangeRate.Euro;
+                            resultToAccount = result / Menu.exchangeRate.Euro;
                         }
                         else if (funds.Currency == "dollar" && Currency == "euro")
-                        {
-                            funds.Balance = funds.Balance + result * 1.09;
-                            resultToAccount = result *1.09;
+                        { 
+                            funds.Balance = funds.Balance + (result / Menu.exchangeRate.Euro) * Menu.exchangeRate.Dollar;
+                            resultToAccount = (result / Menu.exchangeRate.Euro) * Menu.exchangeRate.Dollar;
                         }
                         else if (funds.Currency == "sek" && Currency == "dollar")
                         {
-                            funds.Balance = funds.Balance + result * 10.48;
-                            resultToAccount = result * 10.48;
+                            funds.Balance = funds.Balance + result / Menu.exchangeRate.Dollar;
+                            resultToAccount = result / Menu.exchangeRate.Dollar;
                         }
                         else if (funds.Currency == "euro" && Currency == "dollar")
                         {
-                            funds.Balance = funds.Balance + result * 0.92;
-                            resultToAccount = result * 0.92;
+                            funds.Balance = funds.Balance + (result / Menu.exchangeRate.Dollar) * Menu.exchangeRate.Euro;
+                            resultToAccount = (result / Menu.exchangeRate.Dollar) * Menu.exchangeRate.Euro;
                         }
                     }
                 }
@@ -215,27 +214,27 @@ namespace CyberCoyotesBank
                 }
                 else if (idBalance.Currency == "dollar" && Currency == "sek")
                 {
-                    resultToUser = resultToUser + result / 0.095;
+                    resultToUser = resultToUser + result * Menu.exchangeRate.Dollar;
                 }
                 else if (idBalance.Currency == "euro" && Currency == "sek")
                 {
-                    resultToUser = resultToUser + result * 0.087;
+                    resultToUser = resultToUser + result * Menu.exchangeRate.Euro;
                 }
                 else if (idBalance.Currency == "sek" && Currency == "euro")
                 {
-                    resultToUser = resultToUser + result * 11.43;
+                    resultToUser = resultToUser + result / Menu.exchangeRate.Euro;
                 }
                 else if (idBalance.Currency == "dollar" && Currency == "euro")
                 {
-                    resultToUser = resultToUser + result * 1.09;
+                    resultToUser = resultToUser + (result / Menu.exchangeRate.Euro) * Menu.exchangeRate.Dollar;
                 }
                 else if (idBalance.Currency == "sek" && Currency == "dollar")
                 {
-                    resultToUser = resultToUser + result * 10.48;
+                    resultToUser = resultToUser + result / Menu.exchangeRate.Dollar;
                 }
                 else if (idBalance.Currency == "euro" && Currency == "dollar")
                 {
-                    resultToUser = resultToUser + result * 0.92;
+                    resultToUser = resultToUser + (result / Menu.exchangeRate.Dollar) * Menu.exchangeRate.Euro;
                 }
                 transactionList.Add(new TransactionInfo(this, idBalance, resultToUser));
                 Transaction trans = new Transaction("test", StartTimedTransactions);
