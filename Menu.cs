@@ -133,13 +133,13 @@ namespace CyberCoyotesBank
                 if(account.Interest == 0)
                 {
                     Console.WriteLine("Type of account: Checking account");
-                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {Math.Round(account.Balance, 2)} ({account.ReservedBalance})");
                     Console.WriteLine();
                 }
                 else
                 {
                     Console.WriteLine("Type of account: Savings account");
-                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {account.Balance} ({account.ReservedBalance})\nInterest: {account.Interest}%");
+                    Console.WriteLine($"Account ID: {account._id}\nAccount name: {account.Name}\nCurrency: {account.Currency}\nBalance: {Math.Round(account.Balance, 2)} ({account.ReservedBalance})\nInterest: {account.Interest}%");
                     Console.WriteLine();
                 }
             }
@@ -324,7 +324,7 @@ namespace CyberCoyotesBank
             Console.WriteLine("This is your accounts:");
             foreach (var i in AccountManager.GetAllAccountsUser(LoginManager.GetActiveUser()))
             {
-                Console.WriteLine($"Account ID: {i._id} {i.Name}. \nBalance: {i.Balance} {i.Currency}");
+                Console.WriteLine($"Account ID: {i._id} {i.Name}. \nBalance: {Math.Round(i.Balance, 2)} {i.Currency}");
             }
 
             Console.WriteLine("Please enter the ID of the account that you want to transfer funds from.");
